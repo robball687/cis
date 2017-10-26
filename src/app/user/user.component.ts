@@ -18,7 +18,7 @@ export class UserComponent implements OnInit {
   }
  
   callCurrencyService() {  
-    this._sharedService.getCurrencyExchRate(this.id_currency.toUpperCase())
+    this._sharedService.postNewUser(this.id_currency.toUpperCase())
       .subscribe(
       lstresult => { 
                 this.my_result = JSON.stringify(lstresult); 

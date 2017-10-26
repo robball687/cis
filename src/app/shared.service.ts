@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import { Http, Headers, Response } from "@angular/http";
 import 'rxjs/Rx';
 import { Observable } from "rxjs";
+import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/catch';
  
 @Injectable()
 export class SharedService {
@@ -13,6 +15,7 @@ export class SharedService {
     currencyURL = "http://api.fixer.io/latest?symbols="; 
     totReqsMade: number = 0;
     userURL = "https://lvxoa9yn87.execute-api.us-east-2.amazonaws.com/prod/proxy";
+    userURL2 = "https://7fmznr0wp1.execute-api.us-east-2.amazonaws.com/prod/user";
     constructor(private _http: Http) { }
  
     findWeather(city, state) { 
@@ -36,6 +39,32 @@ export class SharedService {
     getCurrencyExchRate(currency) { 
         this.totReqsMade = this.totReqsMade + 1; 
         return this._http.get(this.userURL)
+            .map(response => {
+                { return response.json() };
+            })
+            .catch(error => Observable.throw(error.json()));
+    }
+
+    postNewUser(currency) { 
+        this.totReqsMade = this.totReqsMade + 1; 
+        //var strbody = "{\"PickupLocation\":{\"Latitude\":47.6174755835663,\"Longitude\":-122.28837066650185}}";
+
+        var content = JSON.stringify(
+            { "PickupLocation":
+                {
+                   "Latitude":47.6174755835663,
+                   "Longitude":-122.28837066650185                
+                }
+            }
+        );
+
+        alert(content);
+        
+        let headers = new Headers({ 'Content-Type': 'application/json; charset=UTF-8' });
+        headers.append('Accept', '*/*');
+        headers.append('Authorization', 'eyJraWQiOiJLTzRVMWZs');         
+
+        return this._http.post(this.userURL2,content,{ headers: headers })
             .map(response => {
                 { return response.json() };
             })
