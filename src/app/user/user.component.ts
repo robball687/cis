@@ -21,9 +21,11 @@ export class UserComponent implements OnInit {
     this._sharedService.postNewUser(this.id_currency.toUpperCase())
       .subscribe(
       lstresult => { 
+                alert("success!");
                 this.my_result = JSON.stringify(lstresult); 
       },
       error => {
+        alert("error!" + error);
         console.log("Error. The callCurrencyService result JSON value is as follows:");
         console.log(error);
       }
@@ -31,8 +33,9 @@ export class UserComponent implements OnInit {
       if(this.my_result != undefined)
       {
         var jsonObject : any = JSON.parse(this.my_result);
-        var jsonObject2 : any = JSON.parse(jsonObject.body); 
-        this.my_result2=jsonObject2.message;
+        alert(this.my_result);
+        //var jsonObject2 : any = JSON.parse(jsonObject.body); 
+        //this.my_result2=jsonObject2.message;
       }
       
   }

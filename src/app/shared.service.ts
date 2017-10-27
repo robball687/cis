@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Http, Headers, Response } from "@angular/http";
+import { Http, Headers, Response, RequestOptions } from "@angular/http";
 import 'rxjs/Rx';
 import { Observable } from "rxjs";
 import 'rxjs/add/operator/map';
@@ -47,27 +47,40 @@ export class SharedService {
 
     postNewUser(currency) { 
         this.totReqsMade = this.totReqsMade + 1; 
-        //var strbody = "{\"PickupLocation\":{\"Latitude\":47.6174755835663,\"Longitude\":-122.28837066650185}}";
-
-        var content = JSON.stringify(
-            { "PickupLocation":
-                {
-                   "Latitude":47.6174755835663,
-                   "Longitude":-122.28837066650185                
-                }
-            }
-        );
-
-        alert(content);
         
-        let headers = new Headers({ 'Content-Type': 'application/json; charset=UTF-8' });
-        headers.append('Accept', '*/*');
-        headers.append('Authorization', 'eyJraWQiOiJLTzRVMWZs');         
+        var NewUser = new User();
+        NewUser.UserName = "robtest";
+        NewUser.FirstName = "rob";
+        NewUser.LastName = "test";       
 
-        return this._http.post(this.userURL2,content,{ headers: headers })
+        var NewObject = new ObjectToSend();
+        NewObject.User = NewUser;    
+        var content = JSON.stringify(NewObject);               
+
+        return this._http.post(this.userURL2,content)
             .map(response => {
                 { return response.json() };
             })
             .catch(error => Observable.throw(error.json()));
     }
+
+    
+}
+
+export class ObjectToSend 
+{
+    User: User;      
+}
+
+export class PickupLocation 
+{
+    Latitude: string;
+    Longitude: string;    
+}
+
+export class User
+{
+    UserName: string;
+    FirstName: string;
+    LastName: string;
 }
