@@ -45,9 +45,9 @@ export class UserComponent implements OnInit {
     }  
 
   }
- 
-  callCurrencyService() {  
-    this._sharedService.postNewUser(this.id_currency.toUpperCase())
+   
+  callCreateUser(name1: string, name2: string, name3: string) {      
+    this._sharedService.postCreateNewUser(name1,name2,name3)
       .subscribe(
       lstresult => { 
                 alert("success!");
@@ -68,4 +68,6 @@ export class UserComponent implements OnInit {
       }
       
   }
+
+  
 }

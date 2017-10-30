@@ -1,18 +1,34 @@
 <h2>Currency Exchange Rates</h2>
 <div class="col-md-8 col-md-offset-2">
  <div class="form-group">
-  <input type="text" [(ngModel)]="id_currency" (change)="callCurrencyService()" class="form-control" placeholder="Enter Currency Symbol. Example: GBP(,AUD,INR)...">
+  <input type="text" [(ngModel)]="id_currency" (change)="callCurrencyService()" class="form-control">
+  <br><br>  
+  <button (click)="callGetUsers()">Get Users</button>
   <br><br>
-  <input type="button" name="Click" (click)="callGetUsers()"/>
-  <br><br>
+  <div>
+    <input #NewUserName />
+    <input #NewFirstName />
+    <input #NewLastName />
+    <button (click)="callCreateUser(NewUserName.value,NewFirstName.value,NewLastName.value)">Add New User</button>
+  </div>
 
   <div *ngIf="gotUser"> 
     <h2>Users </h2>
     <ul >
       <li *ngFor="let User of my_result3.Items" >   
         <p class="well lead">
-            <i> UserID :</i> {{ User.UserID }} <br>
-            <i> UserName :</i> {{ User.User.UserName }} <br>            
+            <i> UserID :</i>
+            <input type="text" [(ngModel)]="User.UserID" placeholder="">
+            <br>
+            <i> UserName :</i> 
+            <input type="text" [(ngModel)]="User.User.UserName" placeholder="">
+            <br>
+            <i> FirstName :</i> 
+            <input type="text" [(ngModel)]="User.User.FirstName" placeholder="">
+            <br>                        
+            <i> LastName :</i> 
+            <input type="text" [(ngModel)]="User.User.LastName" placeholder="">
+            <br>                                                
         </p>           
       </li>
     </ul>

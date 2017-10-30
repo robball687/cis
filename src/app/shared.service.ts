@@ -2,6 +2,9 @@ import { Injectable } from '@angular/core';
 import { Http, Headers, Response, RequestOptions } from "@angular/http";
 import 'rxjs/Rx';
 import { Observable } from "rxjs";
+import { User } from "./objects/user";
+import { SendObject } from "./objects/sendobject";
+
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
  
@@ -44,16 +47,16 @@ export class SharedService {
             })
             .catch(error => Observable.throw(error.json()));
     }
-
-    postNewUser(currency) { 
+    
+    postCreateNewUser(n1,n2,n3) { 
         this.totReqsMade = this.totReqsMade + 1; 
         
         var NewUser = new User();
-        NewUser.UserName = "robtest";
-        NewUser.FirstName = "rob";
-        NewUser.LastName = "test";       
+        NewUser.UserName = n1;
+        NewUser.FirstName = n2;
+        NewUser.LastName = n3;       
 
-        var NewObject = new ObjectToSend();
+        var NewObject = new SendObject();
         NewObject.User = NewUser;    
         var content = JSON.stringify(NewObject);               
 
@@ -80,17 +83,4 @@ export class SharedService {
 export class ObjectToSend 
 {
     User: User;      
-}
-
-export class PickupLocation 
-{
-    Latitude: string;
-    Longitude: string;    
-}
-
-export class User
-{
-    UserName: string;
-    FirstName: string;
-    LastName: string;
 }
