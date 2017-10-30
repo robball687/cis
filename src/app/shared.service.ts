@@ -13,9 +13,9 @@ export class SharedService {
     findMovieURL1 = "http://www.omdbapi.com/?t=";
     findMovieURL2 = "&y=&plot=short&r=json"; 
     currencyURL = "http://api.fixer.io/latest?symbols="; 
-    totReqsMade: number = 0;
-    userURL = "https://lvxoa9yn87.execute-api.us-east-2.amazonaws.com/prod/proxy";
+    totReqsMade: number = 0;    
     userURL2 = "https://7fmznr0wp1.execute-api.us-east-2.amazonaws.com/prod/user";
+    userURL3 = "https://7fmznr0wp1.execute-api.us-east-2.amazonaws.com/prod/user";
     constructor(private _http: Http) { }
  
     findWeather(city, state) { 
@@ -38,7 +38,7 @@ export class SharedService {
  
     getCurrencyExchRate(currency) { 
         this.totReqsMade = this.totReqsMade + 1; 
-        return this._http.get(this.userURL)
+        return this._http.get(this.userURL2)
             .map(response => {
                 { return response.json() };
             })
@@ -62,6 +62,16 @@ export class SharedService {
                 { return response.json() };
             })
             .catch(error => Observable.throw(error.json()));
+    }
+
+    getUsers()
+    {
+        this.totReqsMade = this.totReqsMade + 1; 
+        return this._http.get(this.userURL3)
+        .map(response => {
+            { return response.json() };
+        })
+        .catch(error => Observable.throw(error.json()));
     }
 
     

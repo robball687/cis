@@ -3,6 +3,22 @@
  <div class="form-group">
   <input type="text" [(ngModel)]="id_currency" (change)="callCurrencyService()" class="form-control" placeholder="Enter Currency Symbol. Example: GBP(,AUD,INR)...">
   <br><br>
+  <input type="button" name="Click" (click)="callGetUsers()"/>
+  <br><br>
+
+  <div *ngIf="gotUser"> 
+    <h2>Users </h2>
+    <ul >
+      <li *ngFor="let User of my_result3.Items" >   
+        <p class="well lead">
+            <i> UserID :</i> {{ User.UserID }} <br>
+            <i> UserName :</i> {{ User.User.UserName }} <br>            
+        </p>           
+      </li>
+    </ul>
+  </div>
+
+  <br><br>
   <h3>Rate Details</h3>
   <br>
   <p>{{this.my_result2}}</p>
