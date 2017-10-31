@@ -14,6 +14,7 @@ export class UserComponent implements OnInit {
   my_result3: any;  
   addNewUser = false;
   showUsers = false;
+  selectedUser = null;  
   constructor(private _sharedService: SharedService) {
   }
  
@@ -38,6 +39,11 @@ export class UserComponent implements OnInit {
     
   }  
 
+  selectUser(user)
+  {
+    this.selectedUser = user;    
+  }
+
   callGetUsers()
   {
     this._sharedService.getUsers()
@@ -46,6 +52,7 @@ export class UserComponent implements OnInit {
               this.my_result2 = JSON.stringify(lstresult); 
               this.my_result3 = lstresult;              
               this.showUsers = true;
+              this.selectedUser = null;
     },
     error => {
       alert("error!" + error);      
