@@ -11,60 +11,70 @@ export class UserComponent implements OnInit {
   id_currency: string = "";
   my_result: any;
   my_result2: any;
-  my_result3: any;
-  gotUser = false;
+  my_result3: any;  
+  addNewUser = false;
+  showUsers = false;
   constructor(private _sharedService: SharedService) {
   }
  
   ngOnInit() {
+    if(!this.showUsers)
+    {
+      this.callGetUsers();
+    }    
   }
+
+  toggleAddUser(toggle){
+    this.addNewUser = toggle;
+    if(toggle)
+    {
+      this.showUsers = false;
+    }
+    else
+    {
+      this.showUsers = true;
+      this.callGetUsers();
+    }
+    
+  }  
 
   callGetUsers()
   {
     this._sharedService.getUsers()
     .subscribe(
-    lstresult => { 
-              //alert("success!");
+    lstresult => {               
               this.my_result2 = JSON.stringify(lstresult); 
-              this.my_result3 = lstresult;
-              //alert(lstresult.Items[0].User.FirstName);
-              this.gotUser = true;
+              this.my_result3 = lstresult;              
+              this.showUsers = true;
     },
     error => {
-      alert("error!" + error);
-      console.log("Error. The callCurrencyService result JSON value is as follows:");
+      alert("error!" + error);      
       console.log(error);
     }
     );       
     if(this.my_result != undefined)
     {
       var jsonObject : any = JSON.parse(this.my_result2);
-      alert(this.my_result2);
-      //var jsonObject2 : any = JSON.parse(jsonObject.body); 
-      //this.my_result2=jsonObject2.message;
+      //alert(this.my_result2);      
     }  
-
   }
    
   callCreateUser(name1: string, name2: string, name3: string) {      
     this._sharedService.postCreateNewUser(name1,name2,name3)
       .subscribe(
-      lstresult => { 
-                alert("success!");
+      lstresult => {     
+                alert("User Created");                        
                 this.my_result = JSON.stringify(lstresult); 
+                this.toggleAddUser(false); 
       },
       error => {
         alert("error!" + error);
-        console.log("Error. The callCurrencyService result JSON value is as follows:");
         console.log(error);
       }
       );       
       if(this.my_result != undefined)
       {
-        var jsonObject : any = JSON.parse(this.my_result);
-        alert(this.my_result);
-        //var jsonObject2 : any = JSON.parse(jsonObject.body); 
-        //this.my_result2=jsonObject2.message;
+        var jsonObject : any = JSON.parse(this.my_result);                     
       }
       
   }

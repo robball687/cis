@@ -1,46 +1,38 @@
-<h2>Currency Exchange Rates</h2>
+<h2>User Functionality</h2>
 <div class="col-md-8 col-md-offset-2">
- <div class="form-group">
-  <input type="text" [(ngModel)]="id_currency" (change)="callCurrencyService()" class="form-control">
-  <br><br>  
-  <button (click)="callGetUsers()">Get Users</button>
-  <br><br>
-  <div>
-    <input #NewUserName />
-    <input #NewFirstName />
-    <input #NewLastName />
-    <button (click)="callCreateUser(NewUserName.value,NewFirstName.value,NewLastName.value)">Add New User</button>
+ <div class="form-group">  
+  <ul class="nav nav-pills">
+      <li routerLinkActive="active"> <a *ngIf="addNewUser" (click)="toggleAddUser(false);callGetUsers();">Show Users</a></li>
+      <li routerLinkActive="active"> <a *ngIf="showUsers" (click)="toggleAddUser(true);">Add User</a></li>
+  </ul>  
+  <div *ngIf="addNewUser">
+    <h2>Add User</h2>
+    <p class="well lead">        
+        <i>UserName :</i>
+        <input #NewUserName />
+        <br>
+        <i> NewFirstName :</i>
+        <input #NewFirstName />
+        <br>
+        <i> NewLastName :</i>
+        <input #NewLastName />        
+    </p>
+    <button (click)="callCreateUser(NewUserName.value,NewFirstName.value,NewLastName.value);NewUserName.value='';NewFirstName.value='';NewLastName.value='';">Add New User</button>
   </div>
 
-  <div *ngIf="gotUser"> 
-    <h2>Users </h2>
-    <ul >
-      <li *ngFor="let User of my_result3.Items" >   
-        <p class="well lead">
-            <i> UserID :</i>
-            <input type="text" [(ngModel)]="User.UserID" placeholder="">
-            <br>
-            <i> UserName :</i> 
-            <input type="text" [(ngModel)]="User.User.UserName" placeholder="">
-            <br>
-            <i> FirstName :</i> 
-            <input type="text" [(ngModel)]="User.User.FirstName" placeholder="">
-            <br>                        
-            <i> LastName :</i> 
-            <input type="text" [(ngModel)]="User.User.LastName" placeholder="">
-            <br>                                                
-        </p>           
-      </li>
-    </ul>
+  <div *ngIf="showUsers"> 
+    <h2>Users </h2>      
+      <p *ngFor="let User of my_result3.Items" class="well lead">
+          <i> UserID :</i> {{User.UserID}}<br>          
+          <i> UserName :</i> {{User.User.UserName}}<br>          
+          <i> FirstName :</i> {{User.User.FirstName}}<br>
+          <i> LastName :</i> {{User.User.LastName}}      
+      </p>      
   </div>
 
-  <br><br>
-  <h3>Rate Details</h3>
-  <br>
-  <p>{{this.my_result2}}</p>
-  <p class="well lead">Exchange rate relative to Euro in a JSON format: : {{ this.my_result }} </p>
-  <p class="text-info">Total # of all the service requests including Weather, Movie, and Currency is :
-    <span class="badge">{{this._sharedService.totReqsMade}}</span>
+  <p class="text-info">Total # of all the service requests including Weather, Device, and User is :
+      <span class="badge">{{this._sharedService.totReqsMade}}</span>
   </p>
+
  </div>
 </div>

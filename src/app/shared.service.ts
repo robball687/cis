@@ -38,16 +38,7 @@ export class SharedService {
             })
             .catch(error => Observable.throw(error.json().error));
     }
- 
-    getCurrencyExchRate(currency) { 
-        this.totReqsMade = this.totReqsMade + 1; 
-        return this._http.get(this.userURL2)
-            .map(response => {
-                { return response.json() };
-            })
-            .catch(error => Observable.throw(error.json()));
-    }
-    
+         
     postCreateNewUser(n1,n2,n3) { 
         this.totReqsMade = this.totReqsMade + 1; 
         
