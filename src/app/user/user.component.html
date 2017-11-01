@@ -34,24 +34,24 @@
     <form class="form-horizontal">
         <div class="form-group">
           <label class="col-sm-2 control-label">EditName</label>
-          <div class="col-sm-10">
-            <input class="form-control" #EditUserName placeholder="{{this.selectedUser.UserName}}"/>
+          <div class="col-sm-10">     
+            <input class="form-control" [(ngModel)]="selectedUser.User.UserName" [ngModelOptions]="{standalone: true}" />
           </div>
         </div>
         <div class="form-group">
           <label class="col-sm-2 control-label">EditFirstName</label>
           <div class="col-sm-10">
-            <input class="form-control" #EditFirstName >
+            <input class="form-control" [(ngModel)]="selectedUser.User.FirstName" [ngModelOptions]="{standalone: true}" >
           </div>
         </div>
         <div class="form-group">
           <label class="col-sm-2 control-label">EditLastName</label>
           <div class="col-sm-10">
-            <input class="form-control" #EditLastName >
+            <input class="form-control" [(ngModel)]="selectedUser.User.LastName" [ngModelOptions]="{standalone: true}">
           </div>
         </div>
     </form>    
-    <button type="button" class="btn btn-primary" (click)="callEditUser(EditUserName.value,EditFirstName.value,EditLastName.value);EditUserName.value='';EditFirstName.value='';EditLastName.value='';">Update User</button>
+    <button type="button" class="btn btn-primary" (click)="callEditUser(selectedUser);">Update User</button>
   </div>
 
   <div *ngIf="showUsers"> 

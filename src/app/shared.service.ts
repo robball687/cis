@@ -19,6 +19,7 @@ export class SharedService {
     totReqsMade: number = 0;    
     userURL2 = "https://7fmznr0wp1.execute-api.us-east-2.amazonaws.com/prod/user";
     userURL3 = "https://7fmznr0wp1.execute-api.us-east-2.amazonaws.com/prod/user";
+    userURL4 = "";
     constructor(private _http: Http) { }
  
     findWeather(city, state) { 
@@ -52,6 +53,20 @@ export class SharedService {
         var content = JSON.stringify(NewObject);               
 
         return this._http.post(this.userURL2,content)
+            .map(response => {
+                { return response.json() };
+            })
+            .catch(error => Observable.throw(error.json()));
+    }
+
+    postUpdateUser(u) { 
+        this.totReqsMade = this.totReqsMade + 1; 
+                    
+        var NewObject = new SendObject();
+        NewObject.User = u;    
+        var content = JSON.stringify(NewObject);               
+        alert(content);
+        return this._http.post(this.userURL4,content)
             .map(response => {
                 { return response.json() };
             })

@@ -32,12 +32,11 @@ export class UserComponent implements OnInit {
     if(toggle)
     {
       this.showUsers = false;
-      this.selectedUser = null;
+      this.selectedUser = null;      
       this.ShowUserButton = true;
     }
     else
-    {
-      this.showUsers = true;      
+    {              
       this.callGetUsers();
     }    
   }  
@@ -46,13 +45,12 @@ export class UserComponent implements OnInit {
     this.EditUser = toggle;
     if(toggle)
     {
-      this.showUsers = false;
-      this.selectedUser = null;
+      this.showUsers = false;      
       this.ShowUserButton = true;
     }
     else
     {
-      this.showUsers = true;      
+      this.selectedUser = null;            
       this.callGetUsers();
     }    
   }    
@@ -72,6 +70,7 @@ export class UserComponent implements OnInit {
               this.ShowUserButton = false;     
               this.EditUser = false;     
               this.showUsers = true;
+              this.selectedUser = null;
     },
     error => {
       alert("error!" + error);      
@@ -105,13 +104,14 @@ export class UserComponent implements OnInit {
       
   }
 
-  callEditUser(name1: string, name2: string, name3: string) {      
-    this._sharedService.postCreateNewUser(name1,name2,name3)
+  callEditUser(u) 
+  {              
+      this._sharedService.postUpdateUser(u)
       .subscribe(
       lstresult => {     
                 alert("User Created");                        
                 this.my_result = JSON.stringify(lstresult); 
-                this.toggleAddUser(false); 
+                //this.toggleAddUser(false); 
       },
       error => {
         alert("error!" + error);
@@ -121,8 +121,7 @@ export class UserComponent implements OnInit {
       if(this.my_result != undefined)
       {
         var jsonObject : any = JSON.parse(this.my_result);                     
-      }
-      
+      }      
   }
 
   
