@@ -13,7 +13,9 @@ export class UserComponent implements OnInit {
   my_result2: any;
   my_result3: any;  
   addNewUser = false;
+  EditUser = false;
   showUsers = false;
+  ShowUserButton = false;
   selectedUser = null;  
   constructor(private _sharedService: SharedService) {
   }
@@ -30,14 +32,30 @@ export class UserComponent implements OnInit {
     if(toggle)
     {
       this.showUsers = false;
+      this.selectedUser = null;
+      this.ShowUserButton = true;
     }
     else
     {
-      this.showUsers = true;
+      this.showUsers = true;      
       this.callGetUsers();
-    }
-    
+    }    
   }  
+
+  toggleEditUser(toggle){
+    this.EditUser = toggle;
+    if(toggle)
+    {
+      this.showUsers = false;
+      this.selectedUser = null;
+      this.ShowUserButton = true;
+    }
+    else
+    {
+      this.showUsers = true;      
+      this.callGetUsers();
+    }    
+  }    
 
   selectUser(user)
   {
@@ -50,9 +68,10 @@ export class UserComponent implements OnInit {
     .subscribe(
     lstresult => {               
               this.my_result2 = JSON.stringify(lstresult); 
-              this.my_result3 = lstresult;              
+              this.my_result3 = lstresult;   
+              this.ShowUserButton = false;     
+              this.EditUser = false;     
               this.showUsers = true;
-              this.selectedUser = null;
     },
     error => {
       alert("error!" + error);      
@@ -67,6 +86,26 @@ export class UserComponent implements OnInit {
   }
    
   callCreateUser(name1: string, name2: string, name3: string) {      
+    this._sharedService.postCreateNewUser(name1,name2,name3)
+      .subscribe(
+      lstresult => {     
+                alert("User Created");                        
+                this.my_result = JSON.stringify(lstresult); 
+                this.toggleAddUser(false); 
+      },
+      error => {
+        alert("error!" + error);
+        console.log(error);
+      }
+      );       
+      if(this.my_result != undefined)
+      {
+        var jsonObject : any = JSON.parse(this.my_result);                     
+      }
+      
+  }
+
+  callEditUser(name1: string, name2: string, name3: string) {      
     this._sharedService.postCreateNewUser(name1,name2,name3)
       .subscribe(
       lstresult => {     
