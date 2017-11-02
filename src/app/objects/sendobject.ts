@@ -1,6 +1,6 @@
-import { User } from "./user";
+import { UserObject } from "./userobject";
 
 export class SendObject 
 {
-    User: User;      
+    UserObject: UserObject;      
 }

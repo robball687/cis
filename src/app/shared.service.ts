@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Http, Headers, Response, RequestOptions } from "@angular/http";
 import 'rxjs/Rx';
 import { Observable } from "rxjs";
-import { User } from "./objects/user";
+import { UserObject } from "./objects/userobject";
 import { SendObject } from "./objects/sendobject";
 
 import 'rxjs/add/operator/map';
@@ -19,7 +19,7 @@ export class SharedService {
     totReqsMade: number = 0;    
     userURL2 = "https://7fmznr0wp1.execute-api.us-east-2.amazonaws.com/prod/user";
     userURL3 = "https://7fmznr0wp1.execute-api.us-east-2.amazonaws.com/prod/user";
-    userURL4 = "";
+    userURL4 = "https://7fmznr0wp1.execute-api.us-east-2.amazonaws.com/prod/user/update";
     constructor(private _http: Http) { }
  
     findWeather(city, state) { 
@@ -43,13 +43,13 @@ export class SharedService {
     postCreateNewUser(n1,n2,n3) { 
         this.totReqsMade = this.totReqsMade + 1; 
         
-        var NewUser = new User();
+        var NewUser = new UserObject();
         NewUser.UserName = n1;
         NewUser.FirstName = n2;
         NewUser.LastName = n3;       
 
         var NewObject = new SendObject();
-        NewObject.User = NewUser;    
+        NewObject.UserObject = NewUser;    
         var content = JSON.stringify(NewObject);               
 
         return this._http.post(this.userURL2,content)
@@ -63,7 +63,7 @@ export class SharedService {
         this.totReqsMade = this.totReqsMade + 1; 
                     
         var NewObject = new SendObject();
-        NewObject.User = u;    
+        NewObject.UserObject = u;    
         var content = JSON.stringify(NewObject);               
         alert(content);
         return this._http.post(this.userURL4,content)
@@ -86,7 +86,3 @@ export class SharedService {
     
 }
 
-export class ObjectToSend 
-{
-    User: User;      
-}

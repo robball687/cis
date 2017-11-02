@@ -109,7 +109,7 @@ export class UserComponent implements OnInit {
       this._sharedService.postUpdateUser(u)
       .subscribe(
       lstresult => {     
-                alert("User Created");                        
+                alert("User Updated!");                        
                 this.my_result = JSON.stringify(lstresult); 
                 //this.toggleAddUser(false); 
       },
