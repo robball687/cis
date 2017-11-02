@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { SharedService } from "./../shared.service";
+import { UserObject } from "./../objects/userobject";
  
 @Component({
   selector: 'app-user',
@@ -16,7 +17,10 @@ export class UserComponent implements OnInit {
   EditUser = false;
   showUsers = false;
   ShowUserButton = false;
+  ShowEditButton = false;
   selectedUser = null;  
+  newUser = new UserObject();
+
   constructor(private _sharedService: SharedService) {
   }
  
@@ -31,6 +35,7 @@ export class UserComponent implements OnInit {
     this.addNewUser = toggle;
     if(toggle)
     {
+      this.ShowEditButton = false;
       this.showUsers = false;
       this.selectedUser = null;      
       this.ShowUserButton = true;
@@ -45,6 +50,7 @@ export class UserComponent implements OnInit {
     this.EditUser = toggle;
     if(toggle)
     {
+      this.ShowEditButton=false;
       this.showUsers = false;      
       this.ShowUserButton = true;
     }
@@ -57,7 +63,8 @@ export class UserComponent implements OnInit {
 
   selectUser(user)
   {
-    this.selectedUser = user;    
+    this.selectedUser = user;  
+    this.ShowEditButton = true;  
   }
 
   callGetUsers()
@@ -84,8 +91,16 @@ export class UserComponent implements OnInit {
     }  
   }
    
-  callCreateUser(name1: string, name2: string, name3: string) {      
-    this._sharedService.postCreateNewUser(name1,name2,name3)
+  callCreateUser(name1: string, name2: string, name3: string, name4: string, name5: string, name6: string, name7: string) {    
+    this.newUser.UserName = name1;
+    this.newUser.FirstName = name2;   
+    this.newUser.LastName = name3;  
+    this.newUser.UserCity = name4;  
+    this.newUser.UserState = name5;  
+    this.newUser.PhoneNumber = name6; 
+    this.newUser.UserEmail = name7;     
+
+    this._sharedService.postCreateNewUser(this.newUser)
       .subscribe(
       lstresult => {     
                 alert("User Created");                        
@@ -111,6 +126,7 @@ export class UserComponent implements OnInit {
       lstresult => {     
                 alert("User Updated!");                        
                 this.my_result = JSON.stringify(lstresult); 
+                this.toggleEditUser(false); 
                 //this.toggleAddUser(false); 
       },
       error => {

@@ -1,53 +1,102 @@
 <h2>User Functionality</h2>
-<div class="col-md-8 col-md-offset-2">
+<div class="col-md-10 col-md-offset-1">
  <div class="form-group">  
     <button type="button" class="btn btn-primary" *ngIf="ShowUserButton" (click)="toggleAddUser(false);callGetUsers();">Show Users</button>
     <button type="button" class="btn btn-primary" *ngIf="showUsers" (click)="toggleAddUser(true);">Add User</button>
-    <button type="button" class="btn btn-primary" *ngIf="selectedUser != null" (click)="toggleEditUser(true);">Edit</button>
-  <div *ngIf="addNewUser">
+    <button type="button" class="btn btn-primary" *ngIf="ShowEditButton" (click)="toggleEditUser(true);">Edit</button>
+  <div *ngIf="addNewUser" >
     <h2>Add User</h2>
     <form class="form-horizontal">
         <div class="form-group">
           <label class="col-sm-2 control-label">UserName</label>
-          <div class="col-sm-10">
+          <div class="col-sm-5">
             <input class="form-control" #NewUserName >
           </div>
         </div>
         <div class="form-group">
-          <label class="col-sm-2 control-label">NewFirstName</label>
-          <div class="col-sm-10">
+          <label class="col-sm-2 control-label">FirstName</label>
+          <div class="col-sm-5">
             <input class="form-control" #NewFirstName >
           </div>
         </div>
         <div class="form-group">
-          <label class="col-sm-2 control-label">NewLastName</label>
-          <div class="col-sm-10">
+          <label class="col-sm-2 control-label">LastName</label>
+          <div class="col-sm-5">
             <input class="form-control" #NewLastName >
           </div>
         </div>
+        <div class="form-group">
+          <label class="col-sm-2 control-label">City</label>
+          <div class="col-sm-5">
+            <input class="form-control" #NewCity >
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-sm-2 control-label">State</label>
+          <div class="col-sm-5">
+            <input class="form-control" #NewState >
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-sm-2 control-label">Phone Number</label>
+          <div class="col-sm-5">
+            <input class="form-control" #NewPhoneNumber >
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-sm-2 control-label">Email</label>
+          <div class="col-sm-5">
+            <input class="form-control" #NewEmail >
+          </div>
+        </div>  
     </form>    
-    <button type="button" class="btn btn-primary" (click)="callCreateUser(NewUserName.value,NewFirstName.value,NewLastName.value);NewUserName.value='';NewFirstName.value='';NewLastName.value='';">Add New User</button>
+    <button type="button" class="btn btn-primary" 
+      (click)="callCreateUser(NewUserName.value,NewFirstName.value,NewLastName.value,NewCity.value,NewState.value,NewPhoneNumber.value,NewEmail.value);NewUserName.value='';NewFirstName.value='';NewLastName.value='';NewCity.value='';NewState.value='';NewPhoneNumber.value='';NewEmail.value='';">Add New User</button>
   </div>
 
   <div *ngIf="EditUser">
     <h2>Edit User</h2>
     <form class="form-horizontal">
         <div class="form-group">
-          <label class="col-sm-2 control-label">EditName</label>
-          <div class="col-sm-10">     
+          <label class="col-sm-2 control-label">User Name</label>
+          <div class="col-sm-5">     
             <input class="form-control" [(ngModel)]="selectedUser.UserObject.UserName" [ngModelOptions]="{standalone: true}" />
           </div>
         </div>
         <div class="form-group">
-          <label class="col-sm-2 control-label">EditFirstName</label>
-          <div class="col-sm-10">
+          <label class="col-sm-2 control-label">FirstName</label>
+          <div class="col-sm-5">
             <input class="form-control" [(ngModel)]="selectedUser.UserObject.FirstName" [ngModelOptions]="{standalone: true}" >
           </div>
         </div>
         <div class="form-group">
-          <label class="col-sm-2 control-label">EditLastName</label>
-          <div class="col-sm-10">
+          <label class="col-sm-2 control-label">LastName</label>
+          <div class="col-sm-5">
             <input class="form-control" [(ngModel)]="selectedUser.UserObject.LastName" [ngModelOptions]="{standalone: true}">
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-sm-2 control-label">City</label>
+          <div class="col-sm-5">
+            <input class="form-control" [(ngModel)]="selectedUser.UserObject.UserCity" [ngModelOptions]="{standalone: true}">
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-sm-2 control-label">State</label>
+          <div class="col-sm-5">
+            <input class="form-control" [(ngModel)]="selectedUser.UserObject.UserState" [ngModelOptions]="{standalone: true}">
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-sm-2 control-label">Phone</label>
+          <div class="col-sm-5">
+            <input class="form-control" [(ngModel)]="selectedUser.UserObject.PhoneNumber" [ngModelOptions]="{standalone: true}">
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-sm-2 control-label">Email</label>
+          <div class="col-sm-5">
+            <input class="form-control" [(ngModel)]="selectedUser.UserObject.UserEmail" [ngModelOptions]="{standalone: true}">
           </div>
         </div>
     </form>    
@@ -65,6 +114,10 @@
         <th>UserName</th>
         <th>FirstName</th>
         <th>LastName</th>
+        <th>City</th>
+        <th>State</th>
+        <th>Phone</th>
+        <th>Email</th>
         <tr *ngFor="let UserObject of my_result3.Items" (click)="selectUser(UserObject);"
         [class.info]="UserObject === selectedUser">
         
@@ -72,6 +125,10 @@
           <td>{{UserObject.UserObject.UserName}}</td>
           <td>{{UserObject.UserObject.FirstName}}</td>
           <td>{{UserObject.UserObject.LastName}}</td>
+          <td>{{UserObject.UserObject.UserCity}}</td>
+          <td>{{UserObject.UserObject.UserState}}</td>
+          <td>{{UserObject.UserObject.PhoneNumber}}</td>
+          <td>{{UserObject.UserObject.UserEmail}}</td>
         </tr>          
       </table>
        

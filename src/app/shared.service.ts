@@ -40,16 +40,11 @@ export class SharedService {
             .catch(error => Observable.throw(error.json().error));
     }
          
-    postCreateNewUser(n1,n2,n3) { 
-        this.totReqsMade = this.totReqsMade + 1; 
-        
-        var NewUser = new UserObject();
-        NewUser.UserName = n1;
-        NewUser.FirstName = n2;
-        NewUser.LastName = n3;       
+    postCreateNewUser(u) { 
+        this.totReqsMade = this.totReqsMade + 1;   
 
         var NewObject = new SendObject();
-        NewObject.UserObject = NewUser;    
+        NewObject.UserObject = u;    
         var content = JSON.stringify(NewObject);               
 
         return this._http.post(this.userURL2,content)
@@ -64,8 +59,7 @@ export class SharedService {
                     
         var NewObject = new SendObject();
         NewObject.UserObject = u;    
-        var content = JSON.stringify(NewObject);               
-        alert(content);
+        var content = JSON.stringify(NewObject);       
         return this._http.post(this.userURL4,content)
             .map(response => {
                 { return response.json() };
