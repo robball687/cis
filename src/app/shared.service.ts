@@ -13,13 +13,14 @@ export class SharedService {
     weatherURL1 = "https://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20weather.forecast%20where%20woeid%20in%20(select%20woeid%20from%20geo.places(1)%20where%20text%3D%22";
     weatherURL2 = "%2C%20";
     weatherURL3 = "%22)&format=json&env=store%3A%2F%2Fdatatables.org%2Falltableswithkeys";
-    findMovieURL1 = "http://www.omdbapi.com/?t=";
-    findMovieURL2 = "&y=&plot=short&r=json"; 
-    currencyURL = "http://api.fixer.io/latest?symbols="; 
+     
     totReqsMade: number = 0;    
-    userURL2 = "https://7fmznr0wp1.execute-api.us-east-2.amazonaws.com/prod/user";
-    userURL3 = "https://7fmznr0wp1.execute-api.us-east-2.amazonaws.com/prod/user";
-    userURL4 = "https://7fmznr0wp1.execute-api.us-east-2.amazonaws.com/prod/user/update";
+
+    userURL = "https://7fmznr0wp1.execute-api.us-east-2.amazonaws.com/prod/user";
+    userUpdateURL = "https://7fmznr0wp1.execute-api.us-east-2.amazonaws.com/prod/user/update";
+    deviceURL = "https://2kgdy8xngf.execute-api.us-east-2.amazonaws.com/proddevice/device";
+    deviceUpdateURL = "https://2kgdy8xngf.execute-api.us-east-2.amazonaws.com/proddevice/device/update";
+ 
     constructor(private _http: Http) { }
  
     findWeather(city, state) { 
@@ -30,16 +31,7 @@ export class SharedService {
             })
             .catch(error => Observable.throw(error.json()));
     }
- 
-    findMovie(movie) { 
-        this.totReqsMade = this.totReqsMade + 1; 
-        return this._http.get(this.findMovieURL1 + movie + this.findMovieURL2)
-            .map(response => {
-                { return response.json() };
-            })
-            .catch(error => Observable.throw(error.json().error));
-    }
-         
+              
     postCreateNewUser(u) { 
         this.totReqsMade = this.totReqsMade + 1;   
 
@@ -47,7 +39,7 @@ export class SharedService {
         NewObject.UserObject = u;    
         var content = JSON.stringify(NewObject);               
 
-        return this._http.post(this.userURL2,content)
+        return this._http.post(this.userURL,content)
             .map(response => {
                 { return response.json() };
             })
@@ -60,7 +52,7 @@ export class SharedService {
         var NewObject = new SendObject();
         NewObject.UserObject = u;    
         var content = JSON.stringify(NewObject);       
-        return this._http.post(this.userURL4,content)
+        return this._http.post(this.userUpdateURL,content)
             .map(response => {
                 { return response.json() };
             })
@@ -70,11 +62,33 @@ export class SharedService {
     getUsers()
     {
         this.totReqsMade = this.totReqsMade + 1; 
-        return this._http.get(this.userURL3)
+        return this._http.get(this.userURL)
         .map(response => {
             { return response.json() };
         })
         .catch(error => Observable.throw(error.json()));
+    }
+
+    getDevices()
+    {
+        this.totReqsMade = this.totReqsMade + 1; 
+        return this._http.get(this.deviceURL)
+        .map(response => {
+            { return response.json() };
+        })
+        .catch(error => Observable.throw(error.json()));
+    }
+
+    createNewDevice(d) { 
+        this.totReqsMade = this.totReqsMade + 1;  
+        
+        var content = JSON.stringify(d);               
+
+        return this._http.post(this.deviceURL,content)
+            .map(response => {
+                { return response.json() };
+            })
+            .catch(error => Observable.throw(error.json()));
     }
 
     

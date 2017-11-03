@@ -1,41 +1,105 @@
 import { Component, OnInit } from '@angular/core';
 import { SharedService } from "./../shared.service";
- 
+import { DeviceObject } from "./../objects/deviceobject";
+
 @Component({
   selector: 'app-device',
   templateUrl: './device.component.html',
   styles: []
 })
 export class DeviceComponent implements OnInit {
-    id_movie: string = "";
-    mv_Title: string = "";
-    mv_Rated: string = "";
-    mv_Released: string = "";
-    mv_Director: string = "";
-    mv_Actors: string = "";
-    mv_Plot: string = "";
+    my_result: any;
+    my_result2: any;
+    my_result3: any;  
+    addNewDevice = false;
+    EditDevice = false;
+    showDevices = false;
+    ShowDeviceButton = false;
+    ShowEditButton = false;
+    selectedDevice = null;  
+    newDevice = new DeviceObject();
+
     constructor(private _sharedService: SharedService) {
     }
  
     ngOnInit() {
+        if(!this.showDevices)
+        {
+            this.callGetDevices();
+        }    
     }
- 
-    callMovieService() { 
-        this._sharedService.findMovie(this.id_movie)
-            .subscribe(
-            lstresult => { 
-                this.mv_Title = lstresult["Title"];
-                this.mv_Rated = lstresult["Rated"];
- 
-                this.mv_Released = lstresult["Released"];
-                this.mv_Director = lstresult["Director"];
-                this.mv_Actors = lstresult["Actors"];
-                this.mv_Plot = lstresult["Plot"];
-            },
-            error => {
-                console.log("Error. The findMovie result JSON value is as follows:");
-                console.log(error);
-            }
-            ); 
+
+    selectDeviceUser(device)
+    {
+      this.selectedDevice = device;  
+      this.ShowEditButton = true;  
     }
+
+    callGetDevices()
+    {
+      this._sharedService.getDevices()
+      .subscribe(
+      lstresult => {               
+                this.my_result2 = JSON.stringify(lstresult); 
+                this.my_result3 = lstresult;   
+                this.ShowDeviceButton = false;     
+                this.EditDevice = false;     
+                this.showDevices = true;
+                this.selectedDevice = null;
+      },
+      error => {
+        alert("error!" + error);      
+        console.log(error);
+      }
+      );       
+      if(this.my_result != undefined)
+      {
+        var jsonObject : any = JSON.parse(this.my_result2);
+        //alert(this.my_result2);      
+      }  
+    }
+
+    callCreateDevice(n) {                       
+        this._sharedService.createNewDevice(n)
+          .subscribe(
+          lstresult => {     
+                    alert("Device Created");                        
+                    this.my_result = JSON.stringify(lstresult); 
+                    this.toggleAddDevice(false); 
+          },
+          error => {
+            alert("error!" + error);
+            console.log(error);
+          }
+          );       
+          if(this.my_result != undefined)
+          {
+            var jsonObject : any = JSON.parse(this.my_result);                     
+          }      
+      }
+
+      toggleAddDevice(toggle){
+        this.addNewDevice = toggle;
+        if(toggle)
+        {
+          this.ShowEditButton = false;
+          this.showDevices = false;
+          this.selectedDevice = null;      
+          this.ShowDeviceButton = true;
+          this.newDevice.UserID = "NewID";
+          this.newDevice.DeviceProductID = "NewID";
+          this.newDevice.Version = "1.0";
+          this.newDevice.CostToBuy = 39.99;
+          this.newDevice.PriceSold = 70;
+          this.newDevice.DateBought = new Date();
+          this.newDevice.DateSold = new Date();
+          this.newDevice.DateLastServiced = new Date();
+        }
+        else
+        {              
+          this.callGetDevices();
+        }    
+      }  
+ 
+    
 }

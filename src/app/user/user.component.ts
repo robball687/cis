@@ -115,8 +115,7 @@ export class UserComponent implements OnInit {
       if(this.my_result != undefined)
       {
         var jsonObject : any = JSON.parse(this.my_result);                     
-      }
-      
+      }      
   }
 
   callEditUser(u) 

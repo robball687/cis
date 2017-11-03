@@ -1,20 +1,83 @@
-<h2>Open Movie Database</h2>
-<div class="col-md-8 col-md-offset-2">
- <div class="form-group">
-  <input type="text" required [(ngModel)]="id_movie" (change)="callMovieService()" class="form-control" placeholder="Enter Movie name ...">
-  <br><br>
-  <h3>Movie Details</h3>
-  <br>
-  <p class="well lead">
-      <i> Title :</i> {{ this.mv_Title }} <br>
-      <i> Plot :</i> {{ this.mv_Plot }} <br>
-      <i> Actors :</i> {{ this.mv_Actors }} <br>
-      <i> Directed by :</i> {{ this.mv_Director }} <br>
-      <i> Rated :</i> {{ this.mv_Rated }} <br>
-      <i> Release Date :</i> {{ this.mv_Released }} <br>
-  </p>
-  <p class="text-info">Total # of all the service requests including Weather, Movie, and Currency is :
+<h2>Device Functionality</h2>
+<div class="col-md-10 col-md-offset-1">
+ <div class="form-group">  
+  <button type="button" class="btn btn-primary" *ngIf="ShowDeviceButton" (click)="toggleAddDevice(false);callGetDevices();">Show Devices</button>
+  <button type="button" class="btn btn-primary" *ngIf="showDevices" (click)="toggleAddDevice(true);">Add Device</button>
+  <div *ngIf="addNewDevice" >
+    <h2>Add Device</h2>
+    <form class="form-horizontal">
+        <div class="form-group">
+          <label class="col-sm-2 control-label">UserID</label>
+          <div class="col-sm-5">
+            <input class="form-control" [(ngModel)]="newDevice.UserID" [ngModelOptions]="{standalone: true}" >
+          </div>
+        </div>   
+        <div class="form-group">
+          <label class="col-sm-2 control-label">Device ID</label>
+          <div class="col-sm-5">
+            <input class="form-control" [(ngModel)]="newDevice.DeviceProductID" [ngModelOptions]="{standalone: true}" >
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-sm-2 control-label">Version</label>
+          <div class="col-sm-5">
+            <input class="form-control" [(ngModel)]="newDevice.Version" [ngModelOptions]="{standalone: true}" >
+          </div>
+        </div>    
+        <div class="form-group">
+          <label class="col-sm-2 control-label">CostToBuy</label>
+          <div class="col-sm-5">
+            <input class="form-control" [(ngModel)]="newDevice.CostToBuy" [ngModelOptions]="{standalone: true}" >
+          </div>
+        </div>    
+        <div class="form-group">
+          <label class="col-sm-2 control-label">PriceSold</label>
+          <div class="col-sm-5">
+            <input class="form-control" [(ngModel)]="newDevice.PriceSold" [ngModelOptions]="{standalone: true}" >
+          </div>
+        </div>    
+        <div class="form-group">
+          <label class="col-sm-2 control-label">DateBought</label>
+          <div class="col-sm-5">
+            <input class="form-control" [(ngModel)]="newDevice.DateBought" [ngModelOptions]="{standalone: true}" >
+          </div>
+        </div>    
+        <div class="form-group">
+          <label class="col-sm-2 control-label">DateSold</label>
+          <div class="col-sm-5">
+            <input class="form-control" [(ngModel)]="newDevice.DateSold" [ngModelOptions]="{standalone: true}" >
+          </div>
+        </div>    
+        <div class="form-group">
+          <label class="col-sm-2 control-label">DatelastServiced</label>
+          <div class="col-sm-5">
+            <input class="form-control" [(ngModel)]="newDevice.DateLastServiced" [ngModelOptions]="{standalone: true}" >
+          </div>
+        </div>             
+    </form>    
+    <button type="button" class="btn btn-primary" 
+      (click)="callCreateDevice(newDevice);">Add New Device</button>
+  </div>
+  
+  <div *ngIf="showDevices"> 
+    <h2>Devices </h2>    
+      <p *ngIf="selectedDevice != null">
+          <em>Selected device : </em>{{this.selectedDevice.DeviceID}}          
+      </p>
+      
+      <table class="table table-hover">
+        <th>DeviceID</th>        
+        <tr *ngFor="let DeviceObject of my_result3.Items" (click)="selectDevice(DeviceObject);"
+        [class.info]="DeviceObject === selectedDevice">
+        
+          <td>{{DeviceObject.DeviceID}}</td>          
+        </tr>          
+      </table>       
+  </div>
+
+  <p class="text-info">Total # of all the service requests including Weather, Device, and User is :
       <span class="badge">{{this._sharedService.totReqsMade}}</span>
   </p>
+
  </div>
 </div>
