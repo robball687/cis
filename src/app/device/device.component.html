@@ -3,6 +3,8 @@
  <div class="form-group">  
   <button type="button" class="btn btn-primary" *ngIf="ShowDeviceButton" (click)="toggleAddDevice(false);callGetDevices();">Show Devices</button>
   <button type="button" class="btn btn-primary" *ngIf="showDevices" (click)="toggleAddDevice(true);">Add Device</button>
+  <button type="button" class="btn btn-primary" *ngIf="ShowEditButton" (click)="toggleEditDevice(true);">Edit</button>
+  
   <div *ngIf="addNewDevice" >
     <h2>Add Device</h2>
     <form class="form-horizontal">
@@ -58,6 +60,49 @@
     <button type="button" class="btn btn-primary" 
       (click)="callCreateDevice(newDevice);">Add New Device</button>
   </div>
+
+  <div *ngIf="EditDevice">
+    <h2>Edit Device</h2>
+    <form class="form-horizontal">
+        <div class="form-group">
+          <label class="col-sm-2 control-label">DeviceID</label>
+          <div class="col-sm-5">     
+            <input class="form-control" [(ngModel)]="selectedDevice.DeviceID" [ngModelOptions]="{standalone: true}" />
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-sm-2 control-label">UserID</label>
+          <div class="col-sm-5">
+            <input class="form-control" [(ngModel)]="selectedDevice.DeviceObject.UserID" [ngModelOptions]="{standalone: true}" >
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-sm-2 control-label">Version</label>
+          <div class="col-sm-5">
+            <input class="form-control" [(ngModel)]="selectedDevice.DeviceObject.Version" [ngModelOptions]="{standalone: true}">
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-sm-2 control-label">PriceSold</label>
+          <div class="col-sm-5">
+            <input class="form-control" [(ngModel)]="selectedDevice.DeviceObject.PriceSold" [ngModelOptions]="{standalone: true}">
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-sm-2 control-label">DateSold</label>
+          <div class="col-sm-5">
+            <input class="form-control" [(ngModel)]="selectedDevice.DeviceObject.DateSold" [ngModelOptions]="{standalone: true}">
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-sm-2 control-label">DateLastServiced</label>
+          <div class="col-sm-5">
+            <input class="form-control" [(ngModel)]="selectedDevice.DeviceObject.DateLastServiced" [ngModelOptions]="{standalone: true}">
+          </div>
+        </div>        
+    </form>    
+    <button type="button" class="btn btn-primary" (click)="callEditDevice(selectedDevice);">Update Device</button>
+  </div>
   
   <div *ngIf="showDevices"> 
     <h2>Devices </h2>    
@@ -66,11 +111,21 @@
       </p>
       
       <table class="table table-hover">
-        <th>DeviceID</th>        
+        <th>DeviceID</th>   
+        <th>UserID</th>         
+        <th>Version</th> 
+        <th>PriceSold</th>  
+        <th>DateSold</th>   
+        <th>DateLastServiced</th>          
         <tr *ngFor="let DeviceObject of my_result3.Items" (click)="selectDevice(DeviceObject);"
         [class.info]="DeviceObject === selectedDevice">
         
-          <td>{{DeviceObject.DeviceID}}</td>          
+          <td>{{DeviceObject.DeviceID}}</td> 
+          <td>{{DeviceObject.DeviceObject.UserID}}</td>  
+          <td>{{DeviceObject.DeviceObject.Version}}</td> 
+          <td>{{DeviceObject.DeviceObject.PriceSold}}</td>           
+          <td>{{DeviceObject.DeviceObject.DateSold}}</td> 
+          <td>{{DeviceObject.DeviceObject.DateLastServiced}}</td>       
         </tr>          
       </table>       
   </div>

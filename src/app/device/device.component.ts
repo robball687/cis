@@ -29,7 +29,7 @@ export class DeviceComponent implements OnInit {
         }    
     }
 
-    selectDeviceUser(device)
+    selectDevice(device)
     {
       this.selectedDevice = device;  
       this.ShowEditButton = true;  
@@ -45,18 +45,39 @@ export class DeviceComponent implements OnInit {
                 this.ShowDeviceButton = false;     
                 this.EditDevice = false;     
                 this.showDevices = true;
-                this.selectedDevice = null;
+                this.selectedDevice = null;  
       },
       error => {
         alert("error!" + error);      
         console.log(error);
       }
       );       
+      
       if(this.my_result != undefined)
       {
-        var jsonObject : any = JSON.parse(this.my_result2);
-        //alert(this.my_result2);      
+        var jsonObject : any = JSON.parse(this.my_result2);            
       }  
+    }
+
+    callEditDevice(d) 
+    {              
+        this._sharedService.UpdateDevice(d)
+        .subscribe(
+        lstresult => {     
+                  alert("Device Updated!");                        
+                  this.my_result = JSON.stringify(lstresult); 
+                  this.toggleEditDevice(false); 
+                  //this.toggleAddUser(false); 
+        },
+        error => {
+          alert("error!" + error);
+          console.log(error);
+        }
+        );       
+        if(this.my_result != undefined)
+        {
+          var jsonObject : any = JSON.parse(this.my_result);                     
+        }      
     }
 
     callCreateDevice(n) {                       
@@ -99,7 +120,22 @@ export class DeviceComponent implements OnInit {
         {              
           this.callGetDevices();
         }    
-      }  
+      } 
+      
+      toggleEditDevice(toggle){
+        this.EditDevice = toggle;
+        if(toggle)
+        {
+          this.ShowEditButton=false;
+          this.showDevices = false;      
+          this.ShowDeviceButton = true;
+        }
+        else
+        {
+          this.selectedDevice = null;            
+          this.callGetDevices();
+        }    
+      } 
  
     
 }

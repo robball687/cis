@@ -59,6 +59,19 @@ export class SharedService {
             .catch(error => Observable.throw(error.json()));
     }
 
+    UpdateDevice(d) { 
+        this.totReqsMade = this.totReqsMade + 1; 
+                    
+        var NewObject = new SendObject();
+        NewObject.DeviceObject = d;    
+        var content = JSON.stringify(NewObject);       
+        return this._http.post(this.deviceUpdateURL,content)
+            .map(response => {
+                { return response.json() };
+            })
+            .catch(error => Observable.throw(error.json()));
+    }
+
     getUsers()
     {
         this.totReqsMade = this.totReqsMade + 1; 
@@ -81,8 +94,9 @@ export class SharedService {
 
     createNewDevice(d) { 
         this.totReqsMade = this.totReqsMade + 1;  
-        
-        var content = JSON.stringify(d);               
+        var NewObject = new SendObject();
+        NewObject.DeviceObject = d;    
+        var content = JSON.stringify(NewObject);         
 
         return this._http.post(this.deviceURL,content)
             .map(response => {

@@ -77,7 +77,7 @@ export class UserComponent implements OnInit {
               this.ShowUserButton = false;     
               this.EditUser = false;     
               this.showUsers = true;
-              this.selectedUser = null;
+              this.selectedUser = null;                 
     },
     error => {
       alert("error!" + error);      

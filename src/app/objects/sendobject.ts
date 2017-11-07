@@ -1,6 +1,8 @@
 import { UserObject } from "./userobject";
+import { DeviceObject } from "./deviceobject";
 
 export class SendObject 
 {
-    UserObject: UserObject;      
+    UserObject: UserObject;
+    DeviceObject: DeviceObject;          
 }
