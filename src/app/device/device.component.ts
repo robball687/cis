@@ -11,12 +11,14 @@ export class DeviceComponent implements OnInit {
     my_result: any;
     my_result2: any;
     my_result3: any;  
+    UserList: any;
     addNewDevice = false;
     EditDevice = false;
     showDevices = false;
     ShowDeviceButton = false;
     ShowEditButton = false;
     selectedDevice = null;  
+    selectedUserID: any;
     newDevice = new DeviceObject();
 
     constructor(private _sharedService: SharedService) {
@@ -25,7 +27,7 @@ export class DeviceComponent implements OnInit {
     ngOnInit() {
         if(!this.showDevices)
         {
-            this.callGetDevices();
+            this.callGetDevices();            
         }    
     }
 
@@ -33,6 +35,20 @@ export class DeviceComponent implements OnInit {
     {
       this.selectedDevice = device;  
       this.ShowEditButton = true;  
+    }
+
+    callGetUsers()
+    {
+      this._sharedService.getUsers()
+      .subscribe(
+      lstresult => {    
+                this.UserList = lstresult;  
+      },
+      error => {
+        alert("error!" + error);      
+        console.log(error);
+      }
+      );  
     }
 
     callGetDevices()
@@ -50,17 +66,15 @@ export class DeviceComponent implements OnInit {
       error => {
         alert("error!" + error);      
         console.log(error);
-      }
-      );       
-      
-      if(this.my_result != undefined)
-      {
-        var jsonObject : any = JSON.parse(this.my_result2);            
-      }  
+      } 
+      );             
     }
 
     callEditDevice(d) 
-    {              
+    {           
+        alert(this.selectedUserID);
+        alert(this.selectedDevice.DeviceObject.UserID);
+        alert(d.DeviceObject.UserID);
         this._sharedService.UpdateDevice(d)
         .subscribe(
         lstresult => {     
@@ -126,6 +140,7 @@ export class DeviceComponent implements OnInit {
         this.EditDevice = toggle;
         if(toggle)
         {
+          this.callGetUsers();
           this.ShowEditButton=false;
           this.showDevices = false;      
           this.ShowDeviceButton = true;
