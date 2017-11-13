@@ -61,7 +61,7 @@
       (click)="callCreateDevice(newDevice);">Add New Device</button>
   </div>
 
-  <div *ngIf="EditDevice">
+  <div *ngIf="UserReady">
     <h2>Edit Device</h2>
     <form class="form-horizontal">
         <div class="form-group">
@@ -73,8 +73,8 @@
         <div class="form-group">
           <label class="col-sm-2 control-label">UserID</label>
           <div class="col-sm-5">
-            <select class="form-control" [(ngModel)]="selectedUserID">
-                <option *ngFor="let UserObject of UserList.Items" [ngValue]="UserObject.UserID" [selected]="selectedDevice.DeviceObject.UserID == UserObject.UserID">{{UserObject.UserID}}</option>
+            <select class="form-control" [(ngModel)]="selectedDevice.DeviceObject.UserID" [ngModelOptions]="{standalone: true}">
+                <option *ngFor="let UserObject of UserList.Items" [ngValue]="UserObject.UserID" [selected]="selectedDevice.DeviceObject.UserID == UserObject.UserID" >{{UserObject.UserID}}</option>
             </select>            
           </div>
         </div>

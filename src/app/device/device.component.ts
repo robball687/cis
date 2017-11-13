@@ -19,6 +19,7 @@ export class DeviceComponent implements OnInit {
     ShowEditButton = false;
     selectedDevice = null;  
     selectedUserID: any;
+    UserReady = false;
     newDevice = new DeviceObject();
 
     constructor(private _sharedService: SharedService) {
@@ -36,13 +37,14 @@ export class DeviceComponent implements OnInit {
       this.selectedDevice = device;  
       this.ShowEditButton = true;  
     }
-
+    
     callGetUsers()
     {
       this._sharedService.getUsers()
       .subscribe(
       lstresult => {    
                 this.UserList = lstresult;  
+                this.UserReady = true;
       },
       error => {
         alert("error!" + error);      
@@ -62,6 +64,7 @@ export class DeviceComponent implements OnInit {
                 this.EditDevice = false;     
                 this.showDevices = true;
                 this.selectedDevice = null;  
+                this.UserReady = false;
       },
       error => {
         alert("error!" + error);      
@@ -71,10 +74,7 @@ export class DeviceComponent implements OnInit {
     }
 
     callEditDevice(d) 
-    {           
-        alert(this.selectedUserID);
-        alert(this.selectedDevice.DeviceObject.UserID);
-        alert(d.DeviceObject.UserID);
+    {          
         this._sharedService.UpdateDevice(d)
         .subscribe(
         lstresult => {     
