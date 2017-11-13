@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { SharedService } from "./../shared.service";
 import { UserObject } from "./../objects/userobject";
+import { Router }            from '@angular/router';
  
 @Component({
   selector: 'app-user',
@@ -21,7 +22,7 @@ export class UserComponent implements OnInit {
   selectedUser = null;  
   newUser = new UserObject();
 
-  constructor(private _sharedService: SharedService) {
+  constructor(private _sharedService: SharedService, private router: Router) {
   }
  
   ngOnInit() {
@@ -29,6 +30,12 @@ export class UserComponent implements OnInit {
     {
       this.callGetUsers();
     }    
+  }
+
+  ViewDevices(id)
+  {        
+    let link = ['/device', id];
+    this.router.navigate(link);
   }
 
   toggleAddUser(toggle){

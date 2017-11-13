@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { SharedService } from "./../shared.service";
 import { DeviceObject } from "./../objects/deviceobject";
+import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 
 @Component({
   selector: 'app-device',
@@ -10,7 +11,7 @@ import { DeviceObject } from "./../objects/deviceobject";
 export class DeviceComponent implements OnInit {
     my_result: any;
     my_result2: any;
-    my_result3: any;  
+    DeviceList: any;  
     UserList: any;
     addNewDevice = false;
     EditDevice = false;
@@ -21,23 +22,37 @@ export class DeviceComponent implements OnInit {
     selectedUserID: any;
     UserReady = false;
     newDevice = new DeviceObject();
+    UserIDPassed = "";
+    UseUserIDFilter = false;
 
-    constructor(private _sharedService: SharedService) {
+    constructor(private _sharedService: SharedService, private route: ActivatedRoute, private router: Router) {
     }
  
-    ngOnInit() {
-        if(!this.showDevices)
-        {
-            this.callGetDevices();            
-        }    
+    ngOnInit() {  
+      if(this.route.snapshot.params['id'] != undefined)
+      {
+        this.UseUserIDFilter = true;
+        this.UserIDPassed = this.route.snapshot.params['id'];
+      }
+      
+      if(!this.showDevices)
+      {
+          this.callGetDevices();            
+      }    
     }
 
     selectDevice(device)
-    {
+    {      
       this.selectedDevice = device;  
       this.ShowEditButton = true;  
     }
-    
+
+    ClearFilter()
+    {
+      let link = ['/device'];      
+      this.router.navigate(link);
+    }
+        
     callGetUsers()
     {
       this._sharedService.getUsers()
@@ -59,12 +74,16 @@ export class DeviceComponent implements OnInit {
       .subscribe(
       lstresult => {               
                 this.my_result2 = JSON.stringify(lstresult); 
-                this.my_result3 = lstresult;   
+                this.DeviceList = lstresult;   
                 this.ShowDeviceButton = false;     
                 this.EditDevice = false;     
                 this.showDevices = true;
                 this.selectedDevice = null;  
                 this.UserReady = false;
+                if(this.UseUserIDFilter)
+                {
+                  this.DeviceList.Items = lstresult.Items.filter(item => item.DeviceObject.UserID.toUpperCase() == this.UserIDPassed.toUpperCase());
+                }
       },
       error => {
         alert("error!" + error);      
@@ -80,8 +99,7 @@ export class DeviceComponent implements OnInit {
         lstresult => {     
                   alert("Device Updated!");                        
                   this.my_result = JSON.stringify(lstresult); 
-                  this.toggleEditDevice(false); 
-                  //this.toggleAddUser(false); 
+                  this.toggleEditDevice(false);                   
         },
         error => {
           alert("error!" + error);
@@ -117,6 +135,7 @@ export class DeviceComponent implements OnInit {
         this.addNewDevice = toggle;
         if(toggle)
         {
+          this.callGetUsers();
           this.ShowEditButton = false;
           this.showDevices = false;
           this.selectedDevice = null;      

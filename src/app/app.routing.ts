@@ -7,6 +7,7 @@ const MAINMENU_ROUTES: Routes = [
     { path: '', redirectTo: '/weather', pathMatch: 'full' },
     { path: 'weather', component: WeatherComponent },
     { path: 'user', component: UserComponent },
-    { path: 'device', component: DeviceComponent } 
+    { path: 'device', component: DeviceComponent },
+    { path: 'device/:id', component: DeviceComponent }  
 ];
 export const CONST_ROUTING = RouterModule.forRoot(MAINMENU_ROUTES);

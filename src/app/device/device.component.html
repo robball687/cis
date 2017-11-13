@@ -4,14 +4,17 @@
   <button type="button" class="btn btn-primary" *ngIf="ShowDeviceButton" (click)="toggleAddDevice(false);callGetDevices();">Show Devices</button>
   <button type="button" class="btn btn-primary" *ngIf="showDevices" (click)="toggleAddDevice(true);">Add Device</button>
   <button type="button" class="btn btn-primary" *ngIf="ShowEditButton" (click)="toggleEditDevice(true);">Edit</button>
+  <button type="button" class="btn btn-primary" *ngIf="this.UseUserIDFilter" (click)="ClearFilter();">Clear Filter</button>
   
-  <div *ngIf="addNewDevice" >
+  <div *ngIf="addNewDevice && UserReady" >
     <h2>Add Device</h2>
     <form class="form-horizontal">
         <div class="form-group">
           <label class="col-sm-2 control-label">UserID</label>
           <div class="col-sm-5">
-            <input class="form-control" [(ngModel)]="newDevice.UserID" [ngModelOptions]="{standalone: true}" >           
+            <select class="form-control" [(ngModel)]="newDevice.UserID" [ngModelOptions]="{standalone: true}">
+              <option *ngFor="let UserObject of UserList.Items" [ngValue]="UserObject.UserID" >{{UserObject.UserID}}</option>
+            </select> 
           </div>
         </div>   
         <div class="form-group">
@@ -61,7 +64,7 @@
       (click)="callCreateDevice(newDevice);">Add New Device</button>
   </div>
 
-  <div *ngIf="UserReady">
+  <div *ngIf="EditDevice && UserReady">
     <h2>Edit Device</h2>
     <form class="form-horizontal">
         <div class="form-group">
@@ -116,10 +119,10 @@
         <th>DeviceID</th>   
         <th>UserID</th>         
         <th>Version</th> 
-        <th>PriceSold</th>  
+        <th>$Sold</th>  
         <th>DateSold</th>   
-        <th>DateLastServiced</th>          
-        <tr *ngFor="let DeviceObject of my_result3.Items" (click)="selectDevice(DeviceObject);"
+        <th>LastServiced</th>          
+        <tr *ngFor="let DeviceObject of DeviceList.Items" (click)="selectDevice(DeviceObject);"
         [class.info]="DeviceObject === selectedDevice">
         
           <td>{{DeviceObject.DeviceID}}</td> 

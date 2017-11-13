@@ -4,6 +4,7 @@
     <button type="button" class="btn btn-primary" *ngIf="ShowUserButton" (click)="toggleAddUser(false);callGetUsers();">Show Users</button>
     <button type="button" class="btn btn-primary" *ngIf="showUsers" (click)="toggleAddUser(true);">Add User</button>
     <button type="button" class="btn btn-primary" *ngIf="ShowEditButton" (click)="toggleEditUser(true);">Edit</button>
+    <button type="button" class="btn btn-primary" *ngIf="ShowEditButton" (click)="ViewDevices(selectedUser.UserID);">View Devices</button>
   <div *ngIf="addNewUser" >
     <h2>Add User</h2>
     <form class="form-horizontal">
@@ -112,8 +113,8 @@
       <table class="table table-hover">
         <th>UserID</th>
         <th>UserName</th>
-        <th>FirstName</th>
-        <th>LastName</th>
+        <th>First</th>
+        <th>Last</th>
         <th>City</th>
         <th>State</th>
         <th>Phone</th>
