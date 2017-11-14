@@ -9,16 +9,19 @@ import { DeviceSaleObject } from "./../objects/device-saleobject";
 })
 export class DeviceSaleComponent implements OnInit {
   DeviceList: any;  
-  UserList: any;
-  addNewDevice = false;
+  SalesList: any;  
+  UserListBuy: any;
+  UserListSell: any;
+  addNewSale = false;
   EditSale = false;
   showSales = false;
-  ShowDeviceButton = false;
+  ShowSaleButton = false;
   ShowEditButton = false;
   selectedSale = null;  
   selectedUserID: any;
   newSale = new DeviceSaleObject();
   UserReady = false; 
+  DeviceReady = false; 
 
   constructor(public _sharedService: SharedService) { }
   
@@ -40,7 +43,8 @@ export class DeviceSaleComponent implements OnInit {
     this._sharedService.getUsers()
     .subscribe(
     lstresult => {    
-              this.UserList = lstresult;  
+              this.UserListBuy = lstresult;
+              this.UserListSell = lstresult;   
               this.UserReady = true;
     },
     error => {
@@ -50,13 +54,28 @@ export class DeviceSaleComponent implements OnInit {
     );  
   }
 
-  callGetSales()
+  callGetDevices()
   {
     this._sharedService.getDevices()
     .subscribe(
+    lstresult => {  
+              this.DeviceList = lstresult;  
+              this.DeviceReady = true;              
+    },
+    error => {
+      alert("error!" + error);      
+      console.log(error);
+    } 
+    );             
+  }
+
+  callGetSales()
+  {
+    this._sharedService.getDeviceSales()
+    .subscribe(
     lstresult => {          
-              this.DeviceList = lstresult;   
-              this.ShowDeviceButton = false;     
+              this.SalesList = lstresult;   
+              this.ShowSaleButton = false;     
               this.EditSale = false;     
               this.showSales = true;
               this.selectedSale = null;  
@@ -84,31 +103,30 @@ export class DeviceSaleComponent implements OnInit {
     );     
   }
 
-  callCreateSale(n) {                       
-    /*
-    this._sharedService.createNewDevice(n)
+  callCreateSale(n) {  
+    this._sharedService.createNewSale(n)
       .subscribe(
       lstresult => {     
-                alert("Device Created"); 
+                alert("Sale Created"); 
                 this.toggleAddSale(false); 
       },
       error => {
         alert("error!" + error);
         console.log(error);
       }
-      );   
-      */
+      );  
   }
 
   toggleAddSale(toggle){
-    this.addNewDevice = toggle;
+    this.addNewSale = toggle;
     if(toggle)
     {
       this.callGetUsers();
+      this.callGetDevices();
       this.ShowEditButton = false;
       this.showSales = false;
       this.selectedSale = null;      
-      this.ShowDeviceButton = true;
+      this.ShowSaleButton = true;
       this.newSale.BuyerID = "NewID";
       this.newSale.SellerID = "NewID";
       this.newSale.DeviceID = "NewID";
@@ -122,15 +140,16 @@ export class DeviceSaleComponent implements OnInit {
       this.callGetSales();
     }    
   } 
-    
+      
   toggleEditSale(toggle){
     this.EditSale = toggle;
     if(toggle)
     {
       this.callGetUsers();
+      this.callGetDevices();
       this.ShowEditButton=false;
       this.showSales = false;      
-      this.ShowDeviceButton = true;
+      this.ShowSaleButton = true;
     }
     else
     {

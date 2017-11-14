@@ -1,67 +1,64 @@
 <h2>Device Sales</h2>
 <div class="col-md-10 col-md-offset-1">
  <div class="form-group">  
-  <button type="button" class="btn btn-primary" *ngIf="ShowDeviceButton" (click)="toggleAddSale(false);callGetDevices();">Show Devices</button>
-  <button type="button" class="btn btn-primary" *ngIf="showSales" (click)="toggleAddSale(true);">Add Device</button>
+  <button type="button" class="btn btn-primary" *ngIf="ShowSaleButton" (click)="toggleAddSale(false);">Show Sales</button>
+  <button type="button" class="btn btn-primary" *ngIf="showSales" (click)="toggleAddSale(true);">Add Sale</button>
   <button type="button" class="btn btn-primary" *ngIf="ShowEditButton" (click)="toggleEditSale(true);">Edit</button>
-  <button type="button" class="btn btn-primary" *ngIf="this.UseUserIDFilter" (click)="ClearFilter();">Clear Filter</button>
   
-  <div *ngIf="addNewDevice && UserReady" >
+  <div *ngIf="addNewSale && UserReady && DeviceReady" >
     <h2>Add Sale</h2>
     <form class="form-horizontal">
         <div class="form-group">
-          <label class="col-sm-2 control-label">UserID</label>
+          <label class="col-sm-2 control-label">Buyer ID</label>
           <div class="col-sm-5">
-            <select class="form-control" [(ngModel)]="newSale.UserID" [ngModelOptions]="{standalone: true}">
-              <option *ngFor="let UserObject of UserList.Items" [ngValue]="UserObject.UserID" >{{UserObject.UserID}} - ({{UserObject.UserObject.FirstName}}, {{UserObject.UserObject.LastName}})</option>
+            <select class="form-control" [(ngModel)]="newSale.BuyerID" [ngModelOptions]="{standalone: true}">
+              <option *ngFor="let UserObject of UserListBuy.Items" [ngValue]="UserObject.UserID" >{{UserObject.UserID}} - ({{UserObject.UserObject.FirstName}}, {{UserObject.UserObject.LastName}})</option>
             </select> 
           </div>
         </div>   
         <div class="form-group">
+          <label class="col-sm-2 control-label">Seller ID</label>
+          <div class="col-sm-5">
+            <select class="form-control" [(ngModel)]="newSale.SellerID" [ngModelOptions]="{standalone: true}">
+              <option *ngFor="let UserObject of UserListSell.Items" [ngValue]="UserObject.UserID" >{{UserObject.UserID}} - ({{UserObject.UserObject.FirstName}}, {{UserObject.UserObject.LastName}})</option>
+            </select> 
+          </div>
+        </div>  
+        <div class="form-group">
           <label class="col-sm-2 control-label">Device ID</label>
           <div class="col-sm-5">
-            <input class="form-control" [(ngModel)]="newSale.DeviceProductID" [ngModelOptions]="{standalone: true}" >
+            <select class="form-control" [(ngModel)]="newSale.DeviceID" [ngModelOptions]="{standalone: true}">
+              <option *ngFor="let DeviceObject of DeviceList.Items" [ngValue]="DeviceObject.DeviceID" >{{DeviceObject.DeviceID}} </option>
+            </select> 
           </div>
         </div>
         <div class="form-group">
-          <label class="col-sm-2 control-label">Version</label>
-          <div class="col-sm-5">
-            <input class="form-control" [(ngModel)]="newSale.Version" [ngModelOptions]="{standalone: true}" >
-          </div>
-        </div>    
-        <div class="form-group">
-          <label class="col-sm-2 control-label">CostToBuy</label>
-          <div class="col-sm-5">
-            <input class="form-control" [(ngModel)]="newSale.CostToBuy" [ngModelOptions]="{standalone: true}" >
-          </div>
-        </div>    
-        <div class="form-group">
-          <label class="col-sm-2 control-label">PriceSold</label>
+          <label class="col-sm-2 control-label">Price Sold</label>
           <div class="col-sm-5">
             <input class="form-control" [(ngModel)]="newSale.PriceSold" [ngModelOptions]="{standalone: true}" >
           </div>
         </div>    
         <div class="form-group">
-          <label class="col-sm-2 control-label">DateBought</label>
+          <label class="col-sm-2 control-label">CostToBuy</label>
           <div class="col-sm-5">
-            <input class="form-control" [(ngModel)]="newSale.DateBought" [ngModelOptions]="{standalone: true}" >
+            <input class="form-control" [(ngModel)]="newSale.PriceBought" [ngModelOptions]="{standalone: true}" >
           </div>
         </div>    
+        <div class="form-group">
+          <label class="col-sm-2 control-label">PriceSold</label>
+          <div class="col-sm-5">
+            <input class="form-control" [(ngModel)]="newSale.Profit" [ngModelOptions]="{standalone: true}" >
+          </div>
+        </div>  
         <div class="form-group">
           <label class="col-sm-2 control-label">DateSold</label>
           <div class="col-sm-5">
             <input class="form-control" [(ngModel)]="newSale.DateSold" [ngModelOptions]="{standalone: true}" >
           </div>
-        </div>    
-        <div class="form-group">
-          <label class="col-sm-2 control-label">DatelastServiced</label>
-          <div class="col-sm-5">
-            <input class="form-control" [(ngModel)]="newSale.DateLastServiced" [ngModelOptions]="{standalone: true}" >
-          </div>
-        </div>             
+        </div>     
     </form>    
     <button type="button" class="btn btn-primary" 
-      (click)="callCreateSale(newDevice);">Add New Device</button>
+      (click)="callCreateSale(newSale);">Add New Sale</button>
   </div>
 
   <div *ngIf="EditSale && UserReady">
@@ -76,33 +73,33 @@
         <div class="form-group">
           <label class="col-sm-2 control-label">UserID</label>
           <div class="col-sm-5">
-            <select class="form-control" [(ngModel)]="selectedSale.DeviceObject.UserID" [ngModelOptions]="{standalone: true}">
-                <option *ngFor="let UserObject of UserList.Items" [ngValue]="UserObject.UserID" [selected]="selectedSale.DeviceObject.UserID == UserObject.UserID" >{{UserObject.UserID}}  - ({{UserObject.UserObject.FirstName}}, {{UserObject.UserObject.LastName}})</option>
+            <select class="form-control" [(ngModel)]="selectedSale.DeviceSaleObject.UserID" [ngModelOptions]="{standalone: true}">
+                <option *ngFor="let UserObject of UserList.Items" [ngValue]="UserObject.UserID" [selected]="selectedSale.DeviceSaleObject.UserID == UserObject.UserID" >{{UserObject.UserID}}  - ({{UserObject.UserObject.FirstName}}, {{UserObject.UserObject.LastName}})</option>
             </select>            
           </div>
         </div>
         <div class="form-group">
           <label class="col-sm-2 control-label">Version</label>
           <div class="col-sm-5">
-            <input class="form-control" [(ngModel)]="selectedSale.DeviceObject.Version" [ngModelOptions]="{standalone: true}">
+            <input class="form-control" [(ngModel)]="selectedSale.DeviceSaleObject.Version" [ngModelOptions]="{standalone: true}">
           </div>
         </div>
         <div class="form-group">
           <label class="col-sm-2 control-label">PriceSold</label>
           <div class="col-sm-5">
-            <input class="form-control" [(ngModel)]="selectedSale.DeviceObject.PriceSold" [ngModelOptions]="{standalone: true}">
+            <input class="form-control" [(ngModel)]="selectedSale.DeviceSaleObject.PriceSold" [ngModelOptions]="{standalone: true}">
           </div>
         </div>
         <div class="form-group">
           <label class="col-sm-2 control-label">DateSold</label>
           <div class="col-sm-5">
-            <input class="form-control" [(ngModel)]="selectedSale.DeviceObject.DateSold" [ngModelOptions]="{standalone: true}">
+            <input class="form-control" [(ngModel)]="selectedSale.DeviceSaleObject.DateSold" [ngModelOptions]="{standalone: true}">
           </div>
         </div>
         <div class="form-group">
           <label class="col-sm-2 control-label">DateLastServiced</label>
           <div class="col-sm-5">
-            <input class="form-control" [(ngModel)]="selectedSale.DeviceObject.DateLastServiced" [ngModelOptions]="{standalone: true}">
+            <input class="form-control" [(ngModel)]="selectedSale.DeviceSaleObject.DateLastServiced" [ngModelOptions]="{standalone: true}">
           </div>
         </div>        
     </form>    
@@ -116,21 +113,23 @@
       </p>
       
       <table class="table table-hover">
-        <th>DeviceID</th>   
-        <th>UserID</th>         
-        <th>Version</th> 
+        <th>BuyerID</th>   
+        <th>SellerID</th>         
+        <th>DeviceID</th> 
         <th>$Sold</th>  
-        <th>DateSold</th>   
-        <th>LastServiced</th>          
-        <tr *ngFor="let DeviceObject of DeviceList.Items" (click)="selectSale(DeviceObject);"
-        [class.info]="DeviceObject === selectedSale">
+        <th>$Bought</th>   
+        <th>$Profit</th>   
+        <th>DateSold</th>          
+        <tr *ngFor="let DeviceSaleObject of SalesList.Items" (click)="selectSale(DeviceSaleObject);"
+        [class.info]="DeviceSaleObject === selectedSale">
         
-          <td>{{DeviceObject.DeviceID}}</td> 
-          <td>{{DeviceObject.DeviceObject.UserID}}</td>  
-          <td>{{DeviceObject.DeviceObject.Version}}</td> 
-          <td>{{DeviceObject.DeviceObject.PriceSold}}</td>           
-          <td>{{DeviceObject.DeviceObject.DateSold}}</td> 
-          <td>{{DeviceObject.DeviceObject.DateLastServiced}}</td>       
+          <td>{{DeviceSaleObject.DeviceSaleObject.BuyerID}}</td>  
+          <td>{{DeviceSaleObject.DeviceSaleObject.SellerID}}</td>  
+          <td>{{DeviceSaleObject.DeviceSaleObject.DeviceID}}</td> 
+          <td>{{DeviceSaleObject.DeviceSaleObject.PriceSold}}</td>           
+          <td>{{DeviceSaleObject.DeviceSaleObject.PriceBought}}</td> 
+          <td>{{DeviceSaleObject.DeviceSaleObject.Profit}}</td> 
+          <td>{{DeviceSaleObject.DeviceSaleObject.DateSold}}</td>       
         </tr>          
       </table>       
   </div>

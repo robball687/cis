@@ -21,6 +21,9 @@ export class SharedService {
     deviceURL = "https://2kgdy8xngf.execute-api.us-east-2.amazonaws.com/proddevice/device";
     deviceUpdateURL = "https://2kgdy8xngf.execute-api.us-east-2.amazonaws.com/proddevice/device/update";
  
+    devicesaleURL = "https://rovg8hssa8.execute-api.us-east-2.amazonaws.com/prod/devicesale";
+    devicesaleUpdateURL = "https://rovg8hssa8.execute-api.us-east-2.amazonaws.com/prod/devicesale/update";
+
     constructor(private _http: Http) { }
  
     findWeather(city, state) { 
@@ -92,6 +95,16 @@ export class SharedService {
         .catch(error => Observable.throw(error.json()));
     }
 
+    getDeviceSales()
+    {
+        this.totReqsMade = this.totReqsMade + 1; 
+        return this._http.get(this.devicesaleURL)
+        .map(response => {
+            { return response.json() };
+        })
+        .catch(error => Observable.throw(error.json()));
+    }
+
     createNewDevice(d) { 
         this.totReqsMade = this.totReqsMade + 1;  
         var NewObject = new SendObject();
@@ -99,6 +112,19 @@ export class SharedService {
         var content = JSON.stringify(NewObject);         
 
         return this._http.post(this.deviceURL,content)
+            .map(response => {
+                { return response.json() };
+            })
+            .catch(error => Observable.throw(error.json()));
+    }
+
+    createNewSale(d) { 
+        this.totReqsMade = this.totReqsMade + 1;  
+        var NewObject = new SendObject();
+        NewObject.DeviceSaleObject = d;    
+        var content = JSON.stringify(NewObject);         
+        
+        return this._http.post(this.devicesaleURL,content)
             .map(response => {
                 { return response.json() };
             })
