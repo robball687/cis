@@ -22,7 +22,7 @@ export class UserComponent implements OnInit {
   selectedUser = null;  
   newUser = new UserObject();
 
-  constructor(private _sharedService: SharedService, private router: Router) {
+  constructor(public _sharedService: SharedService, private router: Router) {
   }
  
   ngOnInit() {

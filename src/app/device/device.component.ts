@@ -25,7 +25,7 @@ export class DeviceComponent implements OnInit {
     UserIDPassed = "";
     UseUserIDFilter = false;
 
-    constructor(private _sharedService: SharedService, private route: ActivatedRoute, private router: Router) {
+    constructor(public _sharedService: SharedService, private route: ActivatedRoute, private router: Router) {
     }
  
     ngOnInit() {  

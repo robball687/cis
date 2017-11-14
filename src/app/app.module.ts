@@ -10,6 +10,8 @@ import { DeviceComponent } from './device/device.component';
 import { UserComponent } from './user/user.component';
 import { CONST_ROUTING } from './app.routing';
 import { SharedService } from "./shared.service";
+import { DeviceSaleComponent } from './device-sale/device-sale.component';
+import { ReportsComponent } from './reports/reports.component';
 
 @NgModule({
   declarations: [
@@ -17,7 +19,9 @@ import { SharedService } from "./shared.service";
     MenuComponent,
     WeatherComponent,
     DeviceComponent,
-    UserComponent
+    UserComponent,
+    DeviceSaleComponent,
+    ReportsComponent
   ],
   imports: [
     BrowserModule,
