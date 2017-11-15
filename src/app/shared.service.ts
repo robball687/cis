@@ -75,6 +75,19 @@ export class SharedService {
             .catch(error => Observable.throw(error.json()));
     }
 
+    UpdateSale(d) { 
+        this.totReqsMade = this.totReqsMade + 1; 
+                    
+        var NewObject = new SendObject();
+        NewObject.DeviceSaleObject = d;    
+        var content = JSON.stringify(NewObject);       
+        return this._http.post(this.devicesaleUpdateURL,content)
+            .map(response => {
+                { return response.json() };
+            })
+            .catch(error => Observable.throw(error.json()));
+    }
+
     getUsers()
     {
         this.totReqsMade = this.totReqsMade + 1; 

@@ -37,6 +37,28 @@ export class DeviceSaleComponent implements OnInit {
     this.selectedSale = sale;  
     this.ShowEditButton = true;  
   }
+
+  UpdateProfit(a)
+  {
+    switch(a)
+    {
+      case 0:
+        var tmpPriceBought = this.selectedSale.DeviceSaleObject.PriceBought;
+        var tmpPriceSold = this.selectedSale.DeviceSaleObject.PriceSold;
+        var tmpProfit = Number(tmpPriceSold) - Number(tmpPriceBought);
+        this.selectedSale.DeviceSaleObject.Profit = tmpProfit.toFixed(2);
+        break;
+      case 1:
+        var tmpPriceBought2 = this.newSale.PriceBought;
+        var tmpPriceSold2 = this.newSale.PriceSold;
+        var tmpProfit2 = Number(tmpPriceSold2) - Number(tmpPriceBought2);
+        this.newSale.Profit = Number(tmpProfit2.toFixed(2));
+        break;
+      default:
+        break;
+    }
+     
+  }
         
   callGetUsers()
   {
@@ -88,9 +110,9 @@ export class DeviceSaleComponent implements OnInit {
     );             
   }
 
-  callEditDevice(d) 
+  callEditSale(d) 
   {          
-    this._sharedService.UpdateDevice(d)
+    this._sharedService.UpdateSale(d)
     .subscribe(
     lstresult => {     
               alert("Device Updated!");           
