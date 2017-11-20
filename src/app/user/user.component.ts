@@ -46,6 +46,13 @@ export class UserComponent implements OnInit {
       this.showUsers = false;
       this.selectedUser = null;      
       this.ShowUserButton = true;
+      this.newUser.FirstName = "First Name";
+      this.newUser.LastName = "Last Name";
+      this.newUser.PhoneNumber = "111-222-3333";
+      this.newUser.UserCity = "City";
+      this.newUser.UserEmail = "dontknow@noidea.com";
+      this.newUser.UserState = "State";
+      this.newUser.UserName = "leave blank";
     }
     else
     {              
@@ -98,16 +105,8 @@ export class UserComponent implements OnInit {
     }  
   }
    
-  callCreateUser(name1: string, name2: string, name3: string, name4: string, name5: string, name6: string, name7: string) {    
-    this.newUser.UserName = name1;
-    this.newUser.FirstName = name2;   
-    this.newUser.LastName = name3;  
-    this.newUser.UserCity = name4;  
-    this.newUser.UserState = name5;  
-    this.newUser.PhoneNumber = name6; 
-    this.newUser.UserEmail = name7;     
-
-    this._sharedService.postCreateNewUser(this.newUser)
+  callCreateUser(u) {   
+    this._sharedService.postCreateNewUser(u)
       .subscribe(
       lstresult => {     
                 alert("User Created");                        
