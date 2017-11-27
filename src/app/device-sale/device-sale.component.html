@@ -19,7 +19,7 @@
         <div class="form-group">
           <label class="col-sm-2 control-label">Seller ID</label>
           <div class="col-sm-5">
-            <select class="form-control" [(ngModel)]="newSale.SellerID" [ngModelOptions]="{standalone: true}">
+            <select class="form-control" [(ngModel)]="newSale.SellerID" [ngModelOptions]="{standalone: true}" (change)="UpdateDevicesForSale();">
               <option *ngFor="let UserObject of UserListSell.Items" [ngValue]="UserObject.UserID" >{{UserObject.UserID}} - ({{UserObject.UserObject.FirstName}}, {{UserObject.UserObject.LastName}})</option>
             </select> 
           </div>
@@ -28,6 +28,7 @@
           <label class="col-sm-2 control-label">Device ID</label>
           <div class="col-sm-5">
             <select class="form-control" [(ngModel)]="newSale.DeviceID" [ngModelOptions]="{standalone: true}">
+              <option value=""> Select Device </option>
               <option *ngFor="let DeviceObject of DeviceList.Items" [ngValue]="DeviceObject.DeviceID" >{{DeviceObject.DeviceID}} </option>
             </select> 
           </div>

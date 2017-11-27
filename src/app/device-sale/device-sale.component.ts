@@ -9,6 +9,7 @@ import { DeviceSaleObject } from "./../objects/device-saleobject";
 })
 export class DeviceSaleComponent implements OnInit {
   DeviceList: any;  
+  DeviceToUpdate: any;
   SalesList: any;  
   UserListBuy: any;
   UserListSell: any;
@@ -76,12 +77,21 @@ export class DeviceSaleComponent implements OnInit {
     );  
   }
 
+  UpdateDevicesForSale()
+  {
+    this.callGetDevices();
+  }
+
   callGetDevices()
   {
     this._sharedService.getDevices()
     .subscribe(
     lstresult => {  
-              this.DeviceList = lstresult;  
+              this.DeviceList = lstresult; 
+              if(this.newSale.SellerID != "")
+              {
+                this.DeviceList.Items = this.DeviceList.Items.filter(item => item.DeviceObject.UserID.toUpperCase() == this.newSale.SellerID.toUpperCase());
+              }
               this.DeviceReady = true;              
     },
     error => {
@@ -125,19 +135,67 @@ export class DeviceSaleComponent implements OnInit {
     );     
   }
 
-  callCreateSale(n) {  
-    this._sharedService.createNewSale(n)
+  callCreateSale(n) { 
+    this.callGetDeviceSold(n);
+  }
+
+  callEditDevice(d) 
+  {          
+      this._sharedService.UpdateDevice(d)
       .subscribe(
       lstresult => {     
-                alert("Sale Created"); 
-                this.toggleAddSale(false); 
+                alert("Device Updated! Moved to Buyer!"); 
       },
       error => {
         alert("error!" + error);
         console.log(error);
       }
-      );  
+      );            
   }
+
+  callGetDeviceSold(n)
+  {
+    this._sharedService.getDevices()
+    .subscribe(
+    lstresult => {  
+              this.DeviceToUpdate = lstresult;
+               
+              if(n.DeviceID != "")
+              {
+                this.DeviceToUpdate.Items = this.DeviceToUpdate.Items.filter(item => item.DeviceID.toUpperCase() == this.newSale.DeviceID.toUpperCase());
+              }     
+
+              var GetDeviceToUpdate;
+              for (let t of this.DeviceToUpdate.Items)
+              {
+                t.DeviceObject.UserID = n.BuyerID;  
+                GetDeviceToUpdate = t;
+              }
+
+              this.callEditDevice(GetDeviceToUpdate);
+
+              this.UpdateProfit(1);
+
+              this._sharedService.createNewSale(n)
+              .subscribe(
+              lstresult => {     
+                        alert("Sale Created"); 
+                        this.toggleAddSale(false); 
+              },
+              error => {
+                alert("error!" + error);
+                console.log(error);
+              }
+              );  
+    },
+    error => {
+      alert("error!" + error);      
+      console.log(error);
+    } 
+    );        
+  }
+
+  
 
   toggleAddSale(toggle){
     this.addNewSale = toggle;
@@ -152,9 +210,9 @@ export class DeviceSaleComponent implements OnInit {
       this.newSale.BuyerID = "NewID";
       this.newSale.SellerID = "NewID";
       this.newSale.DeviceID = "NewID";
-      this.newSale.PriceSold = 1;
-      this.newSale.PriceBought = 0;
-      this.newSale.Profit = 0;
+      this.newSale.PriceSold = 70;
+      this.newSale.PriceBought = 40;
+      this.newSale.Profit = 30;
       this.newSale.DateSold = new Date();      
     }
     else

@@ -142,9 +142,9 @@ export class DeviceComponent implements OnInit {
           this.ShowDeviceButton = true;
           this.newDevice.UserID = "NewID";
           this.newDevice.DeviceProductID = "NewID";
-          this.newDevice.Version = "1.0";
-          this.newDevice.CostToBuy = 39.99;
-          this.newDevice.PriceSold = 70;
+          this.newDevice.Version = "17.6";
+          this.newDevice.CostToBuy = 30.00;
+          this.newDevice.PriceSold = 60;
           this.newDevice.DateBought = new Date();
           this.newDevice.DateSold = new Date();
           this.newDevice.DateLastServiced = new Date();
