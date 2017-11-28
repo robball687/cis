@@ -38,6 +38,12 @@ export class UserComponent implements OnInit {
     this.router.navigate(link);
   }
 
+  ViewAddSale(id)
+  {        
+    let link = ['/devicesale', id];
+    this.router.navigate(link);
+  }
+
   toggleAddUser(toggle){
     this.addNewUser = toggle;
     if(toggle)

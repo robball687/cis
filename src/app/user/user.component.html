@@ -5,6 +5,7 @@
     <button type="button" class="btn btn-primary" *ngIf="showUsers" (click)="toggleAddUser(true);">Add User</button>
     <button type="button" class="btn btn-primary" *ngIf="ShowEditButton" (click)="toggleEditUser(true);">Edit</button>
     <button type="button" class="btn btn-primary" *ngIf="ShowEditButton" (click)="ViewDevices(selectedUser.UserID);">View Devices</button>
+    <button type="button" class="btn btn-primary" *ngIf="ShowEditButton" (click)="ViewAddSale(selectedUser.UserID);">Add Sale</button>
   <div *ngIf="addNewUser" >
     <h2>Add User</h2>
     <form class="form-horizontal">

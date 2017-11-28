@@ -13,6 +13,7 @@ const MAINMENU_ROUTES: Routes = [
     { path: 'device', component: DeviceComponent },
     { path: 'device/:id', component: DeviceComponent },
     { path: 'devicesale', component: DeviceSaleComponent },
+    { path: 'devicesale/:id', component: DeviceSaleComponent },
     { path: 'reports', component: ReportsComponent }   
 ];
 export const CONST_ROUTING = RouterModule.forRoot(MAINMENU_ROUTES);

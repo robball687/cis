@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { SharedService } from "./../shared.service";
 import { DeviceSaleObject } from "./../objects/device-saleobject";
+import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 
 @Component({
   selector: 'app-device-sale',
@@ -23,11 +24,21 @@ export class DeviceSaleComponent implements OnInit {
   newSale = new DeviceSaleObject();
   UserReady = false; 
   DeviceReady = false; 
+  UserIDPassed = "";
+  UseUserIDFilter = false;
 
-  constructor(public _sharedService: SharedService) { }
+  constructor(public _sharedService: SharedService, private route: ActivatedRoute) { }
   
   ngOnInit() {  
-    if(!this.showSales)
+
+    if(this.route.snapshot.params['id'] != undefined)
+    {
+      this.UseUserIDFilter = true;
+      this.UserIDPassed = this.route.snapshot.params['id'];
+      this.toggleAddSale(true);
+    }
+
+    if(!this.showSales && this.UseUserIDFilter == false)
     {
         this.callGetSales();            
     }    
@@ -208,12 +219,17 @@ export class DeviceSaleComponent implements OnInit {
       this.selectedSale = null;      
       this.ShowSaleButton = true;
       this.newSale.BuyerID = "NewID";
-      this.newSale.SellerID = "NewID";
+      this.newSale.SellerID = "hnzXb64jSAb9-EHKa_k08Q";
       this.newSale.DeviceID = "NewID";
       this.newSale.PriceSold = 70;
       this.newSale.PriceBought = 40;
       this.newSale.Profit = 30;
-      this.newSale.DateSold = new Date();      
+      this.newSale.DateSold = new Date();    
+
+      if(this.UseUserIDFilter)
+      {
+        this.newSale.BuyerID = this.UserIDPassed;
+      }
     }
     else
     {              
