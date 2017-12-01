@@ -12,6 +12,7 @@ import { CONST_ROUTING } from './app.routing';
 import { SharedService } from "./shared.service";
 import { DeviceSaleComponent } from './device-sale/device-sale.component';
 import { ReportsComponent } from './reports/reports.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -27,7 +28,8 @@ import { ReportsComponent } from './reports/reports.component';
     BrowserModule,
     FormsModule,
     HttpModule,
-    CONST_ROUTING
+    CONST_ROUTING,
+    BrowserAnimationsModule
   ],
   providers: [SharedService],
   bootstrap: [AppComponent]

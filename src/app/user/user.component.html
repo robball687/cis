@@ -6,9 +6,11 @@
     <button type="button" class="btn btn-primary" *ngIf="ShowEditButton" (click)="toggleEditUser(true);">Edit</button>
     <button type="button" class="btn btn-primary" *ngIf="ShowEditButton" (click)="ViewDevices(selectedUser.UserID);">View Devices</button>
     <button type="button" class="btn btn-primary" *ngIf="ShowEditButton" (click)="ViewAddSale(selectedUser.UserID);">Add Sale</button>
-  <div *ngIf="addNewUser" >
+  
+  <div *ngIf="addNewUser"  [@slideInOutAnimation]="addNewVisible">
+    <div style="background-color: grey;">
     <h2>Add User</h2>
-    <form class="form-horizontal">
+    <form class="form-horizontal" >        
         <div class="form-group">
           <label class="col-sm-2 control-label">UserName</label>
           <div class="col-sm-5">
@@ -52,8 +54,9 @@
           </div>
         </div>  
     </form>    
-    <button type="button" class="btn btn-primary" 
-      (click)="callCreateUser(newUser);">Add New User</button>
+    <button type="button" class="btn btn-primary" (click)="callCreateUser(newUser);">Add New User</button>
+    <button type="button" class="btn btn-primary" (click)="toggleAddUser(false);callGetUsers();">Close</button>
+  </div>
   </div>
 
   <div *ngIf="EditUser">

@@ -7,7 +7,7 @@ import { ReportsComponent } from './reports/reports.component';
 
 const MAINMENU_ROUTES: Routes = [
     //full : makes sure the path is absolute path
-    { path: '', redirectTo: '/weather', pathMatch: 'full' },
+    { path: '', redirectTo: '/user', pathMatch: 'full' },
     { path: 'weather', component: WeatherComponent },
     { path: 'user', component: UserComponent },
     { path: 'device', component: DeviceComponent },

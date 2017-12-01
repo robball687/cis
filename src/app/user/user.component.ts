@@ -1,15 +1,89 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnChanges, OnInit, Input } from '@angular/core';
 import { SharedService } from "./../shared.service";
 import { UserObject } from "./../objects/userobject";
 import { Router }            from '@angular/router';
+import { trigger, state, animate, transition, style } from '@angular/animations';
+
+
+export const slideInOutAnimation =
+trigger('slideInOutAnimation', [
+
+    // end state styles for route container (host)
+    state('enter', style({
+        // the view covers the whole screen with a semi tranparent background
+        position: 'fixed',
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        backgroundColor: 'rgba(0, 0, 0, 0.8)'
+    })),
+    
+
+    // route 'enter' transition
+    transition(':enter', [
+
+        // styles at start of transition
+        style({
+            // start with the content positioned off the right of the screen, 
+            // -400% is required instead of -100% because the negative position adds to the width of the element
+            right: '-400%',
+            top: 0,
+            left: 0,            
+            bottom: 0,
+            position: 'fixed',
+            // start with background opacity set to 0 (invisible)
+            backgroundColor: 'rgba(0, 0, 0, 0)'
+        }),
+
+        // animation and styles at end of transition
+        animate('.5s ease-in-out', style({
+            // transition the right position to 0 which slides the content into view
+            right: 0,
+            top: 0,
+            left: 0,            
+            bottom: 0,
+            position: 'fixed',
+            // transition the background opacity to 0.8 to fade it in
+            backgroundColor: 'rgba(0, 0, 0, 0.8)'
+        }))
+    ]),
+
+    // route 'leave' transition
+    transition(':leave', [
+        // animation and styles at end of transition
+        animate('.5s ease-in-out', style({
+            // transition the right position to -400% which slides the content out of view
+            right: '-400%',            
+            top: 0,
+            left: 0,            
+            bottom: 0,
+            position: 'fixed',
+            // transition the background opacity to 0 to fade it out
+            backgroundColor: 'rgba(0, 0, 0, 0)'
+            
+        }))
+    ])
+]);
+
+export const FadeInOutAnimation =trigger('visibilityChanged', [
+  state('shown' , style({ opacity: 1 })), 
+  state('hidden', style({ opacity: 0 })),  
+  transition('shown => hidden', animate('600ms')),
+  transition('hidden => shown', animate('300ms')),    
+  ]  
+)
+
  
 @Component({
   selector: 'app-user',
   templateUrl: './user.component.html',
+  animations: [ slideInOutAnimation ],
   styles: [] 
 })
 export class UserComponent implements OnInit {
-  
+  @Input() isVisible : boolean = true;
+
   id_currency: string = "";
   my_result: any;
   my_result2: any;
@@ -21,6 +95,8 @@ export class UserComponent implements OnInit {
   ShowEditButton = false;
   selectedUser = null;  
   newUser = new UserObject();
+  visibility = 'shown';
+  addNewVisible = 'leave';
 
   constructor(public _sharedService: SharedService, private router: Router) {
   }
@@ -29,7 +105,7 @@ export class UserComponent implements OnInit {
     if(!this.showUsers)
     {
       this.callGetUsers();
-    }    
+    }        
   }
 
   ViewDevices(id)
@@ -52,6 +128,7 @@ export class UserComponent implements OnInit {
       this.showUsers = false;
       this.selectedUser = null;      
       this.ShowUserButton = true;
+      this.addNewVisible = 'enter';
       this.newUser.FirstName = "First Name";
       this.newUser.LastName = "Last Name";
       this.newUser.PhoneNumber = "111-222-3333";
@@ -61,7 +138,8 @@ export class UserComponent implements OnInit {
       this.newUser.UserName = "leave blank";
     }
     else
-    {              
+    {       
+      this.addNewVisible = 'leave';       
       this.callGetUsers();
     }    
   }  
@@ -94,7 +172,8 @@ export class UserComponent implements OnInit {
     lstresult => {               
               this.my_result2 = JSON.stringify(lstresult); 
               this.my_result3 = lstresult;   
-              this.ShowUserButton = false;     
+              this.ShowUserButton = false;  
+              this.addNewVisible = 'leave';   
               this.EditUser = false;     
               this.showUsers = true;
               this.selectedUser = null;                 
