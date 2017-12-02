@@ -8,104 +8,116 @@
     <button type="button" class="btn btn-primary" *ngIf="ShowEditButton" (click)="ViewAddSale(selectedUser.UserID);">Add Sale</button>
   
   <div *ngIf="addNewUser"  [@slideInOutAnimation]="addNewVisible">
-    <div style="background-color: grey;">
-    <h2>Add User</h2>
-    <form class="form-horizontal" >        
+    
+    <div style="background-color: grey;width:50%;margin:auto;text-align:center;border-radius:25px;margin-top:5%;">
+    <div style="background-color:white;border-radius:25px 25px 0px 0px;"><h2>Add User</h2></div>
+    <form class="form-horizontal" style="margin: auto;padding:10px;" >        
         <div class="form-group">
-          <label class="col-sm-2 control-label">UserName</label>
+          <label class="col-sm-4 control-label">UserName</label>
           <div class="col-sm-5">
             <input class="form-control" [(ngModel)]="newUser.UserName" [ngModelOptions]="{standalone: true}"  >
           </div>
         </div>
         <div class="form-group">
-          <label class="col-sm-2 control-label">FirstName</label>
+          <label class="col-sm-4 control-label">FirstName</label>
           <div class="col-sm-5">
             <input class="form-control" [(ngModel)]="newUser.FirstName" [ngModelOptions]="{standalone: true}">
           </div>
         </div>
         <div class="form-group">
-          <label class="col-sm-2 control-label">LastName</label>
+          <label class="col-sm-4 control-label">LastName</label>
           <div class="col-sm-5">
             <input class="form-control" [(ngModel)]="newUser.LastName" [ngModelOptions]="{standalone: true}">
           </div>
         </div>
         <div class="form-group">
-          <label class="col-sm-2 control-label">City</label>
+          <label class="col-sm-4 control-label">City</label>
           <div class="col-sm-5">
             <input class="form-control" [(ngModel)]="newUser.UserCity" [ngModelOptions]="{standalone: true}">
           </div>
         </div>
         <div class="form-group">
-          <label class="col-sm-2 control-label">State</label>
+          <label class="col-sm-4 control-label">State</label>
           <div class="col-sm-5">
             <input class="form-control" [(ngModel)]="newUser.UserState" [ngModelOptions]="{standalone: true}">
           </div>
         </div>
         <div class="form-group">
-          <label class="col-sm-2 control-label">Phone Number</label>
+          <label class="col-sm-4 control-label">Phone Number</label>
           <div class="col-sm-5">
             <input class="form-control" [(ngModel)]="newUser.PhoneNumber" [ngModelOptions]="{standalone: true}">
           </div>
         </div>
         <div class="form-group">
-          <label class="col-sm-2 control-label">Email</label>
+          <label class="col-sm-4 control-label">Email</label>
           <div class="col-sm-5">
             <input class="form-control" [(ngModel)]="newUser.UserEmail" [ngModelOptions]="{standalone: true}">
           </div>
         </div>  
-    </form>    
+    </form>  
+    <div style="padding:10px;">
     <button type="button" class="btn btn-primary" (click)="callCreateUser(newUser);">Add New User</button>
+    &nbsp;
     <button type="button" class="btn btn-primary" (click)="toggleAddUser(false);callGetUsers();">Close</button>
+    </div>
   </div>
   </div>
 
-  <div *ngIf="EditUser">
-    <h2>Edit User</h2>
-    <form class="form-horizontal">
-        <div class="form-group">
-          <label class="col-sm-2 control-label">User Name</label>
-          <div class="col-sm-5">     
-            <input class="form-control" [(ngModel)]="selectedUser.UserObject.UserName" [ngModelOptions]="{standalone: true}" />
-          </div>
+  <div *ngIf="EditUser" [@slideInOutAnimation]="editVisible">
+    <div style="background-color: grey;width:50%;margin:auto;text-align:center;border-radius:25px;margin-top:5%;">
+      <div style="background-color:white;border-radius:25px 25px 0px 0px;"><h2>Edit User</h2></div>
+        <form class="form-horizontal">
+            <div class="form-group">
+              <label class="col-sm-2 control-label">User Name</label>
+              <div class="col-sm-5">     
+                <input class="form-control" [(ngModel)]="selectedUser.UserObject.UserName" [ngModelOptions]="{standalone: true}" />
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-sm-2 control-label">FirstName</label>
+              <div class="col-sm-5">
+                <input class="form-control" [(ngModel)]="selectedUser.UserObject.FirstName" [ngModelOptions]="{standalone: true}" >
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-sm-2 control-label">LastName</label>
+              <div class="col-sm-5">
+                <input class="form-control" [(ngModel)]="selectedUser.UserObject.LastName" [ngModelOptions]="{standalone: true}">
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-sm-2 control-label">City</label>
+              <div class="col-sm-5">
+                <input class="form-control" [(ngModel)]="selectedUser.UserObject.UserCity" [ngModelOptions]="{standalone: true}">
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-sm-2 control-label">State</label>
+              <div class="col-sm-5">
+                <input class="form-control" [(ngModel)]="selectedUser.UserObject.UserState" [ngModelOptions]="{standalone: true}">
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-sm-2 control-label">Phone</label>
+              <div class="col-sm-5">
+                <input class="form-control" [(ngModel)]="selectedUser.UserObject.PhoneNumber" [ngModelOptions]="{standalone: true}">
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-sm-2 control-label">Email</label>
+              <div class="col-sm-5">
+                <input class="form-control" [(ngModel)]="selectedUser.UserObject.UserEmail" [ngModelOptions]="{standalone: true}">
+              </div>
+            </div>
+        </form>    
+    
+        <div style="padding:10px;">
+          <button type="button" class="btn btn-primary" (click)="callEditUser(selectedUser);">Update User</button>
+          &nbsp;
+          <button type="button" class="btn btn-primary" (click)="toggleAddUser(false);callGetUsers();">Close</button>
         </div>
-        <div class="form-group">
-          <label class="col-sm-2 control-label">FirstName</label>
-          <div class="col-sm-5">
-            <input class="form-control" [(ngModel)]="selectedUser.UserObject.FirstName" [ngModelOptions]="{standalone: true}" >
-          </div>
-        </div>
-        <div class="form-group">
-          <label class="col-sm-2 control-label">LastName</label>
-          <div class="col-sm-5">
-            <input class="form-control" [(ngModel)]="selectedUser.UserObject.LastName" [ngModelOptions]="{standalone: true}">
-          </div>
-        </div>
-        <div class="form-group">
-          <label class="col-sm-2 control-label">City</label>
-          <div class="col-sm-5">
-            <input class="form-control" [(ngModel)]="selectedUser.UserObject.UserCity" [ngModelOptions]="{standalone: true}">
-          </div>
-        </div>
-        <div class="form-group">
-          <label class="col-sm-2 control-label">State</label>
-          <div class="col-sm-5">
-            <input class="form-control" [(ngModel)]="selectedUser.UserObject.UserState" [ngModelOptions]="{standalone: true}">
-          </div>
-        </div>
-        <div class="form-group">
-          <label class="col-sm-2 control-label">Phone</label>
-          <div class="col-sm-5">
-            <input class="form-control" [(ngModel)]="selectedUser.UserObject.PhoneNumber" [ngModelOptions]="{standalone: true}">
-          </div>
-        </div>
-        <div class="form-group">
-          <label class="col-sm-2 control-label">Email</label>
-          <div class="col-sm-5">
-            <input class="form-control" [(ngModel)]="selectedUser.UserObject.UserEmail" [ngModelOptions]="{standalone: true}">
-          </div>
-        </div>
-    </form>    
-    <button type="button" class="btn btn-primary" (click)="callEditUser(selectedUser);">Update User</button>
+      
+    </div>
   </div>
 
   <div *ngIf="showUsers"> 

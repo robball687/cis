@@ -37,7 +37,7 @@ trigger('slideInOutAnimation', [
         }),
 
         // animation and styles at end of transition
-        animate('.5s ease-in-out', style({
+        animate('2.5s ease-in-out', style({
             // transition the right position to 0 which slides the content into view
             right: 0,
             top: 0,
@@ -52,7 +52,7 @@ trigger('slideInOutAnimation', [
     // route 'leave' transition
     transition(':leave', [
         // animation and styles at end of transition
-        animate('.5s ease-in-out', style({
+        animate('2.5s ease-in-out', style({
             // transition the right position to -400% which slides the content out of view
             right: '-400%',            
             top: 0,
@@ -97,6 +97,7 @@ export class UserComponent implements OnInit {
   newUser = new UserObject();
   visibility = 'shown';
   addNewVisible = 'leave';
+  editVisible = 'leave';
 
   constructor(public _sharedService: SharedService, private router: Router) {
   }
@@ -151,10 +152,12 @@ export class UserComponent implements OnInit {
       this.ShowEditButton=false;
       this.showUsers = false;      
       this.ShowUserButton = true;
+      this.editVisible = 'enter';
     }
     else
     {
-      this.selectedUser = null;            
+      this.selectedUser = null;   
+      this.editVisible = 'leave';         
       this.callGetUsers();
     }    
   }    
@@ -173,7 +176,7 @@ export class UserComponent implements OnInit {
               this.my_result2 = JSON.stringify(lstresult); 
               this.my_result3 = lstresult;   
               this.ShowUserButton = false;  
-              this.addNewVisible = 'leave';   
+               
               this.EditUser = false;     
               this.showUsers = true;
               this.selectedUser = null;                 
