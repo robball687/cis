@@ -2,10 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { SharedService } from "./../shared.service";
 import { DeviceObject } from "./../objects/deviceobject";
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
+import { slideInOutAnimation } from "./../animations/movestuff";
 
 @Component({
   selector: 'app-device',
   templateUrl: './device.component.html',
+  animations: [ slideInOutAnimation ],
   styles: []
 })
 export class DeviceComponent implements OnInit {
@@ -24,6 +26,8 @@ export class DeviceComponent implements OnInit {
     newDevice = new DeviceObject();
     UserIDPassed = "";
     UseUserIDFilter = false;
+    addNewVisible = 'leave';
+    editVisible = 'leave';
 
     constructor(public _sharedService: SharedService, private route: ActivatedRoute, private router: Router) {
     }
@@ -140,6 +144,7 @@ export class DeviceComponent implements OnInit {
           this.showDevices = false;
           this.selectedDevice = null;      
           this.ShowDeviceButton = true;
+          this.addNewVisible = 'enter';
           this.newDevice.UserID = "NewID";
           this.newDevice.DeviceProductID = "NewID";
           this.newDevice.Version = "17.6";
@@ -150,7 +155,8 @@ export class DeviceComponent implements OnInit {
           this.newDevice.DateLastServiced = new Date();
         }
         else
-        {              
+        {             
+          this.addNewVisible = 'leave'; 
           this.callGetDevices();
         }    
       } 
@@ -163,10 +169,12 @@ export class DeviceComponent implements OnInit {
           this.ShowEditButton=false;
           this.showDevices = false;      
           this.ShowDeviceButton = true;
+          this.editVisible = 'enter';
         }
         else
         {
-          this.selectedDevice = null;            
+          this.selectedDevice = null;     
+          this.editVisible = 'leave';       
           this.callGetDevices();
         }    
       } 

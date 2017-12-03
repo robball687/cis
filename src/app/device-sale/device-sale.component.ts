@@ -2,10 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { SharedService } from "./../shared.service";
 import { DeviceSaleObject } from "./../objects/device-saleobject";
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
+import { slideInOutAnimation } from "./../animations/movestuff";
 
 @Component({
   selector: 'app-device-sale',
   templateUrl: './device-sale.component.html',
+  animations: [ slideInOutAnimation ],
   styles: []
 })
 export class DeviceSaleComponent implements OnInit {
@@ -26,6 +28,8 @@ export class DeviceSaleComponent implements OnInit {
   DeviceReady = false; 
   UserIDPassed = "";
   UseUserIDFilter = false;
+  addNewVisible = 'leave';
+  editVisible = 'leave';
 
   constructor(public _sharedService: SharedService, private route: ActivatedRoute) { }
   
@@ -218,6 +222,7 @@ export class DeviceSaleComponent implements OnInit {
       this.showSales = false;
       this.selectedSale = null;      
       this.ShowSaleButton = true;
+      this.addNewVisible = 'enter';
       this.newSale.BuyerID = "NewID";
       this.newSale.SellerID = "hnzXb64jSAb9-EHKa_k08Q";
       this.newSale.DeviceID = "NewID";
@@ -232,7 +237,8 @@ export class DeviceSaleComponent implements OnInit {
       }
     }
     else
-    {              
+    {          
+      this.addNewVisible = 'leave';    
       this.callGetSales();
     }    
   } 
@@ -243,12 +249,14 @@ export class DeviceSaleComponent implements OnInit {
     {
       this.callGetUsers();
       this.callGetDevices();
+      this.editVisible = 'enter';
       this.ShowEditButton=false;
       this.showSales = false;      
       this.ShowSaleButton = true;
     }
     else
     {
+      this.editVisible = 'leave';
       this.selectedSale = null;            
       this.callGetSales();
     }    
