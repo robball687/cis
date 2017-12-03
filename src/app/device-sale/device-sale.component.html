@@ -3,7 +3,6 @@
  <div class="form-group">  
   <button type="button" class="btn btn-primary" *ngIf="ShowSaleButton" (click)="toggleAddSale(false);">Show Sales</button>
   <button type="button" class="btn btn-primary" *ngIf="showSales" (click)="toggleAddSale(true);">Add Sale</button>
-  <button type="button" class="btn btn-primary" *ngIf="ShowEditButton" (click)="toggleEditSale(true);">Edit</button>
   
   <div *ngIf="addNewSale && UserReady && DeviceReady" [@slideInOutAnimation]="addNewVisible"  >
     <div style="background-color: grey;width:50%;margin:auto;text-align:center;border-radius:25px;margin-top:5%;">
@@ -136,20 +135,18 @@
         <th>BuyerID</th>   
         <th>SellerID</th>         
         <th>DeviceID</th> 
-        <th>$Sold</th>  
-        <th>$Bought</th>   
         <th>$Profit</th>   
-        <th>DateSold</th>          
+        <th>DateSold</th>     
+        <th></th>     
         <tr *ngFor="let DeviceSaleObject of SalesList.Items" (click)="selectSale(DeviceSaleObject);"
         [class.info]="DeviceSaleObject === selectedSale">
         
           <td>{{DeviceSaleObject.DeviceSaleObject.BuyerID}}</td>  
           <td>{{DeviceSaleObject.DeviceSaleObject.SellerID}}</td>  
           <td>{{DeviceSaleObject.DeviceSaleObject.DeviceID}}</td> 
-          <td>{{DeviceSaleObject.DeviceSaleObject.PriceSold}}</td>           
-          <td>{{DeviceSaleObject.DeviceSaleObject.PriceBought}}</td> 
           <td>{{DeviceSaleObject.DeviceSaleObject.Profit}}</td> 
-          <td>{{DeviceSaleObject.DeviceSaleObject.DateSold}}</td>       
+          <td>{{DeviceSaleObject.DeviceSaleObject.DateSold}}</td>      
+          <td><button type="button" class="btn btn-primary" *ngIf="DeviceSaleObject === selectedSale" (click)="toggleEditSale(true);">Edit</button></td>     
         </tr>          
       </table>       
   </div>
