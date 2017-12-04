@@ -13,6 +13,7 @@ import { SharedService } from "./shared.service";
 import { DeviceSaleComponent } from './device-sale/device-sale.component';
 import { ReportsComponent } from './reports/reports.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ChartsModule } from 'ng2-charts';
 
 @NgModule({
   declarations: [
@@ -29,7 +30,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     FormsModule,
     HttpModule,
     CONST_ROUTING,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    ChartsModule
   ],
   providers: [SharedService],
   bootstrap: [AppComponent]
