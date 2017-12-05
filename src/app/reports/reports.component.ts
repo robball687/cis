@@ -10,19 +10,27 @@ import { DeviceSaleObject } from "./../objects/device-saleobject";
 export class ReportsComponent implements OnInit {
   tmpSalesList: any;
   ShowReport = false;
-  tmpData = [];
+  tmpDataProfit = [0,0,0,0,0,0,0,0,0,0,0,0,0];
+  tmpDataTotalSale = [0,0,0,0,0,0,0,0,0,0,0,0,0];
 
   constructor(public _sharedService: SharedService) { }
 
   ngOnInit() {
     this.callGetSales();
-    this.CreateTmpDisplay();
   }
 
   CreateTmpDisplay()
   {
-    //this.tmpData = this.tmpData.(1);
     var lbl = "Data Bitches";
+    for ( let i of this.tmpSalesList.Items)
+    {
+      let newDate = new Date(i.DeviceSaleObject.DateSold);
+      //alert(newDate.getMonth());
+      this.tmpDataProfit[newDate.getMonth()] = Number(this.tmpDataProfit[newDate.getMonth()]) + Number(i.DeviceSaleObject.Profit);
+      this.tmpDataTotalSale[newDate.getMonth()] = Number(this.tmpDataTotalSale[newDate.getMonth()]) + Number(i.DeviceSaleObject.PriceSold);
+    }
+
+    this.ConnectToReport();
   }
 
   callGetSales()
@@ -31,7 +39,8 @@ export class ReportsComponent implements OnInit {
     .subscribe(
     lstresult => {          
               this.tmpSalesList = lstresult;   
-              this.ShowReport = true;              
+              this.ShowReport = true;  
+              this.CreateTmpDisplay();
     },
     error => {
       alert("error!" + error);      
@@ -40,15 +49,12 @@ export class ReportsComponent implements OnInit {
     );             
   }
 
-  public lineChartData2:Array<any> = [
-    {data: [65, 59, 80, 81, 56, 55, 40], label: 'Series A'},
-  ];
-
   public lineChartData:Array<any> = [
-    {data: [65, 59, 80, 81, 56, 55, 40], label: 'Series A'},
+    {data: [0, 0, 0, 0, 0, 0, 0,0,0,0,0,0], label: 'Profit'},
+    {data: [0, 0, 0, 0, 0, 0, 0,0,0,0,0,0], label: 'Total Sold'},
   ];
 
-  public lineChartLabels:Array<any> = ['January', 'February', 'March', 'April', 'May', 'June', 'July'];
+  public lineChartLabels:Array<any> = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul','Aug','Sep','Oct','Nov','Dec'];
   public lineChartOptions:any = {
     responsive: true
   };
@@ -81,12 +87,23 @@ export class ReportsComponent implements OnInit {
   public lineChartLegend:boolean = true;
   public lineChartType:string = 'line';
 
-  public randomize():void {
+  public ConnectToReport():void {
     let _lineChartData:Array<any> = new Array(this.lineChartData.length);
     for (let i = 0; i < this.lineChartData.length; i++) {
       _lineChartData[i] = {data: new Array(this.lineChartData[i].data.length), label: this.lineChartData[i].label};
       for (let j = 0; j < this.lineChartData[i].data.length; j++) {
-        _lineChartData[i].data[j] = Math.floor((Math.random() * 100) + 1);
+        switch(i)
+        {
+          case 0:
+            _lineChartData[i].data[j] = this.tmpDataProfit[j];
+            break;
+          case 1:
+            _lineChartData[i].data[j] = this.tmpDataTotalSale[j];
+            break;
+          default:
+            break;
+        }
+        
       }
     }
     this.lineChartData = _lineChartData;
