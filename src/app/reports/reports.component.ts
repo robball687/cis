@@ -33,6 +33,12 @@ export class ReportsComponent implements OnInit {
     this.ConnectToReport();
   }
 
+  getReportData()
+  {
+    var tmpdata = this._sharedService.GetReport("1").subscribe(val=> alert(val));
+    
+  }
+
   callGetSales()
   {
     this._sharedService.getDeviceSales()

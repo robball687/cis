@@ -24,8 +24,23 @@ export class SharedService {
     devicesaleURL = "https://rovg8hssa8.execute-api.us-east-2.amazonaws.com/prod/devicesale";
     devicesaleUpdateURL = "https://rovg8hssa8.execute-api.us-east-2.amazonaws.com/prod/devicesale/update";
 
+    reportURL = "https://a2lt3d1hj8.execute-api.us-east-2.amazonaws.com/prod/report";
+
     constructor(private _http: Http) { }
  
+    GetReport(num) { 
+        this.totReqsMade = this.totReqsMade + 1;   
+
+        var strToPass = "{'report':'" + num + "'}";             
+
+        return this._http.post(this.reportURL,strToPass)
+            .map(response => {
+                { return response.json() };
+            })
+            .catch(error => Observable.throw(error.json()));
+    }
+
+
     findWeather(city, state) { 
         this.totReqsMade = this.totReqsMade + 1; 
         return this._http.get(this.weatherURL1 + city + this.weatherURL2+ state + this.weatherURL3)
